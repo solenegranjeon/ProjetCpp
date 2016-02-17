@@ -45,31 +45,31 @@ Bacteria::Bacteria(const Bacteria& bac){
 	
 }
 
-//~ Bacteria::Bacteria(double Raa, double Rbb, double Rab, double Rbc, double Pmut, double Pdeath, int x, int y, int geno){
-//~ 
-	//~ this->Raa = Raa;
-	//~ this->Rbb = Rbb;
-	//~ this->Rab = Rab;
-	//~ this->Rbc = Rbc;
-	//~ this->Pmut = Pmut;
-	//~ this->Pdeath = Pdeath;
-	//~ 
-	//~ // Parameters specific to the bacteria
-	//~ pos = new int[2];
-	//~ pos[0] = x;
-	//~ pos[1] = y;
-	//~ 
-	//~ phenotype = new double[3];
-	//~ phenotype[0] = 
-	//~ phenotype[1] = 
-	//~ phenotype[2] = 
-	//~ 
-	//~ this->alive = true;
-	//~ this->can_divide = false;
-	//~ this->genotype = geno;
-	//~ this->fitness = fit;
-//~ 
-//~ }
+Bacteria::Bacteria(double Raa, double Rbb, double Rab, double Rbc, double Pmut, double Pdeath, int x, int y, int geno){
+
+	this->Raa = Raa;
+	this->Rbb = Rbb;
+	this->Rab = Rab;
+	this->Rbc = Rbc;
+	this->Pmut = Pmut;
+	this->Pdeath = Pdeath;
+	
+	// Parameters specific to the bacteria
+	pos = new int[2];
+	pos[0] = x;
+	pos[1] = y;
+	
+	phenotype = new double[3];
+	phenotype[0] = 0;
+	phenotype[1] = 0;
+	phenotype[2] = 0;
+	
+	this->alive = true;
+	this->can_divide = false;
+	this->genotype = geno;
+	this->fitness = 0;
+
+}
 
 // ===========================================================================
 //                                 Destructor
@@ -98,6 +98,16 @@ void Bacteria::Mutation(void){
 		else{
 			genotype = 1;
 		}
+	}
+}
+
+void Bacteria::Death(void){
+	unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+  default_random_engine generator (seed);
+	uniform_real_distribution <double> distribution (0.0,1.0);
+	double prob = distribution(generator);
+	if(prob<this->Pdeath){
+		alive = false;
 	}
 }
 

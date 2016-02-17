@@ -20,7 +20,7 @@ class Bacteria {
 		
 		Bacteria() = delete;
 		Bacteria(const Bacteria&);
-		//~ Bacteria(double, double, double, double, double, double, int, int);
+		Bacteria(double, double, double, double, double, double, int, int, int);
 		
 		// =========================================================================
 		//                                Destructor
@@ -46,6 +46,7 @@ class Bacteria {
 		// =========================================================================
 
 		void Mutation(void);
+		void Death(void);
 
 	protected :
 		// =========================================================================

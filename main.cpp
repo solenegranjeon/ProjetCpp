@@ -50,6 +50,8 @@ int main(int argc,char* argv[]) {
 	
 	double t_simulation = 10000;
   
+  Environment* envir = new Environment(W,H,D,Ainit);
+  delete envir;
   
   
   return 0;

@@ -16,8 +16,9 @@ class Environment {
 		//                               Constructors
 		// =========================================================================
 		
-		Environment();
-		Environment(const Environment&);
+		Environment() = delete;
+		Environment(const Environment&) = delete;
+		Environment(int, int, double, double);
 		
 		// =========================================================================
 		//                                Destructor
@@ -41,7 +42,9 @@ class Environment {
 		// =========================================================================
 		//                              Public Methods
 		// =========================================================================
-
+		
+		void diffuse(int,int);
+		void diffuse_all(void);
 
 	protected :
 		// =========================================================================
@@ -52,6 +55,18 @@ class Environment {
 		//                                Attributes
 		// =========================================================================
 
+		int W;
+		int H;
+		double D;
+		
+		double** A_out;
+		double** B_out;
+		double** C_out;
+		
+		double** A_out_next;
+		double** B_out_next;
+		double** C_out_next;
+		
 	// ===========================================================================
 	//                            Getters' definitions
 	// ===========================================================================
