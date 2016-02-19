@@ -90,7 +90,18 @@ Population::~Population() {
 void Population::mutation_all(void){
 	
 	for(int i = 0; i<x_max*y_max; i++){
+		int state1 = pop[i]->Geno();
 		pop[i]->Mutation();
+		if(state1 != pop[i]->Geno()){
+			if(state1 == 1){
+				pop_A --;
+				pop_B ++;
+			}
+			else{
+				pop_A ++;
+				pop_B --;
+			}
+		}
 	}
 	
 }
@@ -99,6 +110,15 @@ void Population::death_all(void){
 
 	for(int i = 0; i<x_max*y_max; i++){
 		pop[i]->Death();
+		if(pop[i]->Alive() == false){
+			pop_Dead ++;
+			if(pop[i]->Geno() == 1){
+				pop_A --;
+			}
+			else{
+				pop_B --;
+			}
+		}
 	}
 
 }
@@ -110,6 +130,12 @@ void Population::fitness_all(void){
 	}
 
 }
+
+//Getter
+
+//~ bool Population::get_Status(int i){
+	//~ return pos[i]->Alive();
+//~ }
 
 // ===========================================================================
 //                              Protected Methods

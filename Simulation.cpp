@@ -38,7 +38,7 @@ double A_init, int A, int B, int T, int t_max) {
 	this->T = T;
 	this->t_cur = 0;
 	
-	pop = new Population(Raa, Rbb, Rab, Rbc, Pmut, Pdeath, Wmin, W, H, A, B);
+	population = new Population(Raa, Rbb, Rab, Rbc, Pmut, Pdeath, Wmin, W, H, A, B);
 	envir = new Environment(W, H, D, A_init);
 }
 
@@ -50,7 +50,7 @@ double A_init, int A, int B, int T, int t_max) {
 // ===========================================================================
 
 Simulation::~Simulation() {
-	delete pop;
+	delete population;
 	delete envir;
 }
 
@@ -61,6 +61,11 @@ Simulation::~Simulation() {
 void Simulation::Algo_evol(void){
 	
 	while(t_cur<t_max){
+		
+		if(t_cur%T == 0){
+			// Reinitialize the environment
+			envir->reinit();
+		}
 	
 		//Diffusion of A,B,C in the environment
 		envir->diffuse_all();
@@ -78,7 +83,26 @@ void Simulation::Algo_evol(void){
 }
 
 void Simulation::step_Death(void){
-	
+	//Bacterias die randomly
+	population->death_all();
+	//The dead bacterias diffuse their content in the environment
+	//~ for(int i = 0; i<W*H; i++){
+		//~ if(population->get_Status(i) == false){
+			//~ 
+			//~ int x = pop->pop[i].pos_x();
+			//~ int y = pop->pop[i].pos_y();
+			//~ 
+			//~ double new_A = envir->get_A(x,y) + pop->pop[i].A_in();
+			//~ double new_B = envir->get_B(x,y) + pop->pop[i].B_in();
+			//~ double new_C = envir->get_C(x,y) + pop->pop[i].C_in();
+			//~ 
+			//~ envir->set_A(x,y,new_A);
+			//~ envir->set_B(x,y,new_B);
+			//~ envir->set_C(x,y,new_C);
+			//~ 
+		//~ }
+		//~ 
+	//~ }
 }
 
 // ===========================================================================

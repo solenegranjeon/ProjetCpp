@@ -26,6 +26,7 @@ Environment::Environment(int W, int H, double D, double A_init) {
 	this->W = W;
 	this->H = H;
 	this->D = D;
+	this->A_init = A_init;
 	
 	A_out = new double*[W];
 	
@@ -146,9 +147,71 @@ void Environment::diffuse_all(void){
 	}
 }
 
+void Environment::reinit(){
+	
+	for(int i = 0; i<W; i++){
+		for(int j = 0; j<H; j++){
+			A_out[i][j] = A_init;
+		}
+	}
+	
+	for(int i = 0; i<W; i++){
+		for(int j = 0; j<H; j++){
+			B_out[i][j] = 0;
+		}
+	}
+
+	for(int i = 0; i<W; i++){
+		for(int j = 0; j<H; j++){
+			C_out[i][j] = 0;
+		}
+	}
+
+	for(int i = 0; i<W; i++){
+		memcpy(A_out_next[i], A_out[i], sizeof(double)*H);
+	}
+	
+	for(int i = 0; i<W; i++){
+		memcpy(B_out_next[i], B_out[i], sizeof(double)*H);
+	}
+	
+	for(int i = 0; i<W; i++){
+		memcpy(C_out_next[i], C_out[i], sizeof(double)*H);
+	}
+	
+}
+
 // ===========================================================================
 //                              Protected Methods
 // ===========================================================================
+
+//Setters:
+
+void Environment::set_A(int x, int y, double new_A){
+	A_out[x][y] = new_A;
+}
+
+void Environment::set_B(int x, int y, double new_B){
+	B_out[x][y] = new_B;
+}
+
+void Environment::set_C(int x, int y, double new_C){
+	C_out[x][y] = new_C;
+}
+
+//Getters:
+
+double Environment::get_A(int x, int y){
+	return A_out[x][y];
+}
+
+double Environment::get_B(int x, int y){
+	return B_out[x][y];
+}
+
+double Environment::get_C(int x, int y){
+	return C_out[x][y];
+}
 
 // ===========================================================================
 //                              External Methods

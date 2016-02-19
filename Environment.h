@@ -31,10 +31,16 @@ class Environment {
 		//                                  Getters
 		// =========================================================================
 
+		double get_A(int,int);
+		double get_B(int,int);
+		double get_C(int,int);
+
 		// =========================================================================
 		//                                  Setters
 		// =========================================================================
-
+		void set_A(int, int, double);
+		void set_B(int, int, double);
+		void set_C(int, int, double);
 		
 		// =========================================================================
 		//                                 Operators
@@ -46,6 +52,7 @@ class Environment {
 		
 		void diffuse(int,int);
 		void diffuse_all(void);
+		void reinit();
 
 	protected :
 		// =========================================================================
@@ -59,6 +66,8 @@ class Environment {
 		int W;
 		int H;
 		double D;
+		
+		double A_init;
 		
 		double** A_out;
 		double** B_out;

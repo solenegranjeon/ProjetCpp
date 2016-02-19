@@ -84,7 +84,7 @@ class Simulation {
 		int t_cur;
 		int T;
 		int t_max;
-		Population* pop;
+		Population* population;
 		Environment* envir;
 		
 		
