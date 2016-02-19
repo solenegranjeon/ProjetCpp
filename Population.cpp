@@ -17,7 +17,7 @@
 
 //Constructor with params
 Population::Population(double Raa, double Rbb, double Rab, double Rbc, 
-double Pmut, double Pdeath, double Wmin, int x, int y, int A, int B){
+double Pmut, double Pdeath, double Wmin, int W, int H, int A, int B){
 
 	this->Raa = Raa;
 	this->Rbb = Rbb;
@@ -30,12 +30,12 @@ double Pmut, double Pdeath, double Wmin, int x, int y, int A, int B){
 	pop_A = 0;
 	pop_B = 0;
 	pop_Dead = 0;
-	x_max = x;
-	y_max = y;
+	x_max = W;
+	y_max = H;
 
 	int index = 0;
 	
-	pop = new Bacteria*[x*y];
+	pop = new Bacteria*[W*H];
 	for(int i = 0; i<x_max; i++){
 		for(int j = 0; j<y_max; j++){
 			int random = rand()%2;
@@ -87,7 +87,29 @@ Population::~Population() {
 // ===========================================================================
 //                               Public Methods
 // ===========================================================================
+void Population::mutation_all(void){
+	
+	for(int i = 0; i<x_max*y_max; i++){
+		pop[i]->Mutation();
+	}
+	
+}
 
+void Population::death_all(void){
+
+	for(int i = 0; i<x_max*y_max; i++){
+		pop[i]->Death();
+	}
+
+}
+
+void Population::fitness_all(void){
+
+	for(int i = 0; i<x_max*y_max; i++){
+		pop[i]->Fitness();
+	}
+
+}
 
 // ===========================================================================
 //                              Protected Methods

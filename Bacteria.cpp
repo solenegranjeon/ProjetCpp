@@ -47,7 +47,8 @@ Bacteria::Bacteria(const Bacteria& bac){
 }
 
 //Constructor giving parameters
-Bacteria::Bacteria(double Raa, double Rbb, double Rab, double Rbc, double Pmut, double Pdeath, double Wmin, int x, int y, int geno){
+Bacteria::Bacteria(double Raa, double Rbb, double Rab, double Rbc, 
+double Pmut, double Pdeath, double Wmin, int x, int y, int geno){
 
 	this->Raa = Raa;
 	this->Rbb = Rbb;
@@ -125,6 +126,46 @@ void Bacteria::Fitness(void){
 		fitness = 0;
 	}
 }
+
+
+//Getters
+
+int Bacteria::Geno(void){
+	return genotype;
+}
+
+int Bacteria::pos_x(void){
+	return pos[0];
+}
+
+int Bacteria::pos_y(void){
+	return pos[1];
+}
+
+double Bacteria::A_in(void){
+	return phenotype[0];
+}
+
+double Bacteria::B_in(void){
+	return phenotype[1];
+}
+
+double Bacteria::C_in(void){
+	return phenotype[2];
+}
+
+double Bacteria::Fit(void){
+	return fitness;
+}
+
+bool Bacteria::Alive(void){
+	return alive;
+}
+
+bool Bacteria::Can_Divide(void){
+	return can_divide;
+}
+
 // ===========================================================================
 //                              Protected Methods
 // ===========================================================================
