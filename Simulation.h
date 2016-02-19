@@ -8,6 +8,9 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include "Bacteria.h"
+#include "Population.h"
+#include "Environment.h"
 
 class Simulation {
 	
@@ -16,8 +19,11 @@ class Simulation {
 		//                               Constructors
 		// =========================================================================
 		
-		Simulation();
-		Simulation(const Simulation&);
+		Simulation() = delete;
+		Simulation(const Simulation&) = delete;
+		Simulation& operator=(const Simulation&) = delete;
+		Simulation(double, double, double, double, double, double, double, 
+		int, int, double, double, int, int, int, int);
 		
 		// =========================================================================
 		//                                Destructor
@@ -41,7 +47,9 @@ class Simulation {
 		// =========================================================================
 		//                              Public Methods
 		// =========================================================================
-
+		void step_Death(void);
+		
+		void Algo_evol(void);
 
 	protected :
 		// =========================================================================
@@ -51,7 +59,35 @@ class Simulation {
 		// =========================================================================
 		//                                Attributes
 		// =========================================================================
-
+		
+		//Parameters of the model
+		//for the Bacterias
+		double Raa;
+		double Rbb;
+		double Rab;
+		double Rbc;
+		double Pmut;
+		double Pdeath;
+		double Wmin;
+		
+		//for the Environment
+		int W;
+		int H;
+		double D;
+		double A_init;
+		
+		//for the Population
+		int Ga_init;
+		int Gb_init;
+		
+		//for the Simulation
+		int t_cur;
+		int T;
+		int t_max;
+		Population* pop;
+		Environment* envir;
+		
+		
 	// ===========================================================================
 	//                            Getters' definitions
 	// ===========================================================================

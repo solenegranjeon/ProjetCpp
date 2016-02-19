@@ -56,9 +56,12 @@ int main(int argc,char* argv[]) {
   Environment* envir = new Environment(W,H,D,Ainit);
   envir->diffuse_all();
   
+  Simulation* sim = new Simulation(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,
+  D,Ainit,W+H/2,W+H/2,T,t_simulation);
   
   delete envir;
 	delete pop;
+	delete sim;
   
   return 0;
 }
