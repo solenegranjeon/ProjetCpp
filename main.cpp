@@ -44,15 +44,21 @@ int main(int argc,char* argv[]) {
   
   double Pmut = 0;
   double Pdeath = 0.02;
+  double Wmin = 0.001;
   
   double T = 500;
 	double Ainit = 50;
 	
 	double t_simulation = 10000;
+   
+  Population* pop = new Population(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,W+H/2,W+H/2);
   
   Environment* envir = new Environment(W,H,D,Ainit);
-  delete envir;
+  envir->diffuse_all();
   
+  
+  delete envir;
+	delete pop;
   
   return 0;
 }

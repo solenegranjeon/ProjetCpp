@@ -20,7 +20,7 @@ class Bacteria {
 		
 		Bacteria() = delete;
 		Bacteria(const Bacteria&);
-		Bacteria(double, double, double, double, double, double, int, int, int);
+		Bacteria(double, double, double, double, double, double, double, int, int, int);
 		
 		// =========================================================================
 		//                                Destructor
@@ -47,6 +47,8 @@ class Bacteria {
 
 		void Mutation(void);
 		void Death(void);
+		void Fitness(void);
+
 
 	protected :
 		// =========================================================================
@@ -64,6 +66,7 @@ class Bacteria {
 	double Rbc;
 	double Pmut;
 	double Pdeath;
+	double Wmin;
 	
 	// Parameters specific to the bacteria
 	int* pos; //[x,y]

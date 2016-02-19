@@ -22,6 +22,7 @@
 
 // Constructor
 Environment::Environment(int W, int H, double D, double A_init) {
+	
 	this->W = W;
 	this->H = H;
 	this->D = D;
@@ -52,7 +53,7 @@ Environment::Environment(int W, int H, double D, double A_init) {
 			C_out[i][j] = 0;
 		}
 	}
-	
+
 	A_out_next = new double*[W];
 	
 	for(int i = 0; i<W; i++){
@@ -70,7 +71,7 @@ Environment::Environment(int W, int H, double D, double A_init) {
 	C_out_next = new double*[W];
 	
 	for(int i = 0; i<W; i++){
-		C_out[i] = new double[H];
+		C_out_next[i] = new double[H];
 		memcpy(C_out_next[i], C_out[i], sizeof(double)*H);
 	}
 	
@@ -97,6 +98,13 @@ Environment::~Environment() {
 	delete[] A_out_next;
 	delete[] B_out_next;
 	delete[] C_out_next;
+	A_out = nullptr;
+	B_out = nullptr;
+	C_out = nullptr;
+	A_out_next = nullptr;
+	B_out_next = nullptr;
+	C_out_next = nullptr;
+	
 }
 
 // ===========================================================================

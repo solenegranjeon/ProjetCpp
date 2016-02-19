@@ -30,6 +30,7 @@ Bacteria::Bacteria(const Bacteria& bac){
 	this->Rbc = bac.Rbc;
 	this->Pmut = bac.Pmut;
 	this->Pdeath = bac.Pdeath;
+	this->Wmin = bac.Wmin;
 	
 	// Parameters specific to the bacteria
 	pos = new int[2];
@@ -45,7 +46,8 @@ Bacteria::Bacteria(const Bacteria& bac){
 	
 }
 
-Bacteria::Bacteria(double Raa, double Rbb, double Rab, double Rbc, double Pmut, double Pdeath, int x, int y, int geno){
+//Constructor giving parameters
+Bacteria::Bacteria(double Raa, double Rbb, double Rab, double Rbc, double Pmut, double Pdeath, double Wmin, int x, int y, int geno){
 
 	this->Raa = Raa;
 	this->Rbb = Rbb;
@@ -53,6 +55,7 @@ Bacteria::Bacteria(double Raa, double Rbb, double Rab, double Rbc, double Pmut, 
 	this->Rbc = Rbc;
 	this->Pmut = Pmut;
 	this->Pdeath = Pdeath;
+	this->Wmin = Wmin;
 	
 	// Parameters specific to the bacteria
 	pos = new int[2];
@@ -111,6 +114,17 @@ void Bacteria::Death(void){
 	}
 }
 
+void Bacteria::Fitness(void){
+	if(genotype == 1){
+		fitness = phenotype[1];
+	}
+	else{
+		fitness = phenotype[2];
+	}
+	if(fitness < Wmin){
+		fitness = 0;
+	}
+}
 // ===========================================================================
 //                              Protected Methods
 // ===========================================================================

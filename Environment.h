@@ -18,6 +18,7 @@ class Environment {
 		
 		Environment() = delete;
 		Environment(const Environment&) = delete;
+		Environment& operator=(const Environment&) = delete;
 		Environment(int, int, double, double);
 		
 		// =========================================================================
