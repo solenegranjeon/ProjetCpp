@@ -59,6 +59,8 @@ int main(int argc,char* argv[]) {
   Simulation* sim = new Simulation(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,
   D,Ainit,W+H/2,W+H/2,T,t_simulation);
   
+  sim->Algo_evol();
+  
   delete envir;
 	delete pop;
 	delete sim;

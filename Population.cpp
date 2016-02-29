@@ -133,9 +133,9 @@ void Population::fitness_all(void){
 
 //Getter
 
-//~ bool Population::get_Status(int i){
-	//~ return pos[i]->Alive();
-//~ }
+bool Population::get_Status(int i){
+	return pop[i]->Alive();
+}
 
 // ===========================================================================
 //                              Protected Methods

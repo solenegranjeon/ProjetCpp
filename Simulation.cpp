@@ -86,23 +86,23 @@ void Simulation::step_Death(void){
 	//Bacterias die randomly
 	population->death_all();
 	//The dead bacterias diffuse their content in the environment
-	//~ for(int i = 0; i<W*H; i++){
-		//~ if(population->get_Status(i) == false){
-			//~ 
-			//~ int x = pop->pop[i].pos_x();
-			//~ int y = pop->pop[i].pos_y();
-			//~ 
-			//~ double new_A = envir->get_A(x,y) + pop->pop[i].A_in();
-			//~ double new_B = envir->get_B(x,y) + pop->pop[i].B_in();
-			//~ double new_C = envir->get_C(x,y) + pop->pop[i].C_in();
-			//~ 
-			//~ envir->set_A(x,y,new_A);
-			//~ envir->set_B(x,y,new_B);
-			//~ envir->set_C(x,y,new_C);
-			//~ 
-		//~ }
-		//~ 
-	//~ }
+	for(int i = 0; i<W*H; i++){
+		if(population->get_Status(i) == false){
+			
+			int x = population->pop[i]->pos_x();
+			int y = population->pop[i]->pos_y();
+			
+			double new_A = envir->get_A(x,y) + population->pop[i]->A_in();
+			double new_B = envir->get_B(x,y) + population->pop[i]->B_in();
+			double new_C = envir->get_C(x,y) + population->pop[i]->C_in();
+			
+			envir->set_A(x,y,new_A);
+			envir->set_B(x,y,new_B);
+			envir->set_C(x,y,new_C);
+			
+		}
+		
+	}
 }
 
 // ===========================================================================

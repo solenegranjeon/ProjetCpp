@@ -11,6 +11,8 @@
 
 class Environment {
 	
+	friend class Simulation;
+	
 	public :
 		// =========================================================================
 		//                               Constructors
