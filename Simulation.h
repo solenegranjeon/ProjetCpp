@@ -8,9 +8,12 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <string>
 #include "Bacteria.h"
 #include "Population.h"
 #include "Environment.h"
+
+using namespace std;
 
 class Simulation {
 	
@@ -50,6 +53,8 @@ class Simulation {
 		void step_Death(void);
 		
 		void Algo_evol(void);
+		
+		//~ string Stat(void);
 
 	protected :
 		// =========================================================================

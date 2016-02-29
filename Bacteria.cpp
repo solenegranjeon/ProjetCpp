@@ -113,7 +113,6 @@ void Bacteria::Death(void){
 	if(prob<this->Pdeath){
 		alive = false;
 	}
-	cout << alive << endl;
 }
 
 void Bacteria::Fitness(void){

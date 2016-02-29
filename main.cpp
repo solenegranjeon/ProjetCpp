@@ -14,6 +14,7 @@
 #include <vector>
 #include <list>
 #include <ctime>
+#include <string>
 
 #include "Bacteria.h"
 #include "Population.h"
@@ -56,13 +57,13 @@ int main(int argc,char* argv[]) {
   Population* pop = new Population(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,W+H/2,W+H/2);
   
   Environment* envir = new Environment(W,H,D,Ainit);
-  //~ envir->diffuse_all();
+  envir->diffuse_all();
   
   Simulation* sim = new Simulation(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,
   D,Ainit,W+H/2,W+H/2,T,t_simulation);
   
-  //~ sim->Algo_evol();
-  
+  sim->Algo_evol();
+
   delete envir;
 	delete pop;
 	delete sim;

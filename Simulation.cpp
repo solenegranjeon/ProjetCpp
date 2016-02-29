@@ -63,7 +63,7 @@ void Simulation::Algo_evol(void){
 	while(t_cur<t_max){
 		
 		if(t_cur%T == 0){
-			// Reinitialize the environment
+			// Reinitialization of the environment
 			envir->reinit();
 		}
 	
@@ -73,10 +73,13 @@ void Simulation::Algo_evol(void){
 		//Bacterias die randomly and diffuse their content in the environment
 		step_Death();
 		
+		//Step mutation
+		population->mutation_all();
+		
 		//Step division
 		
-		//Step living
-		
+		//Step living and adjusting the fitness
+		population->fitness_all();
 		
 		t_cur ++;
 	}
@@ -87,23 +90,35 @@ void Simulation::step_Death(void){
 	population->death_all();
 	//The dead bacterias diffuse their content in the environment
 	for(int i = 0; i<W*H; i++){
-		if(population->get_Status(i) == false){
-			
-			int x = population->pop[i]->pos_x();
-			int y = population->pop[i]->pos_y();
-			
-			double new_A = envir->get_A(x,y) + population->pop[i]->A_in();
-			double new_B = envir->get_B(x,y) + population->pop[i]->B_in();
-			double new_C = envir->get_C(x,y) + population->pop[i]->C_in();
-			
-			envir->set_A(x,y,new_A);
-			envir->set_B(x,y,new_B);
-			envir->set_C(x,y,new_C);
-			
-		}
 		
+		if(population->pop[i] != nullptr){
+			
+			if(population->get_Status(i) == false){ // Bacteria is dead
+				
+				int x = population->pop[i]->pos_x();
+				int y = population->pop[i]->pos_y();
+				
+				double new_A = envir->get_A(x,y) + population->pop[i]->A_in();
+				double new_B = envir->get_B(x,y) + population->pop[i]->B_in();
+				double new_C = envir->get_C(x,y) + population->pop[i]->C_in();
+				
+				envir->set_A(x,y,new_A);
+				envir->set_B(x,y,new_B);
+				envir->set_C(x,y,new_C);
+				
+				delete population->pop[i];
+				population->pop[i] = nullptr;
+				
+			}
+		}
 	}
 }
+
+//~ string Simulation::Stat(void){
+	//~ string res = int(population->pop_A) + " " + int(population->pop_B) + " " +
+	//~ int(population->pop_Dead) + "\n";
+	//~ return res;
+//~ }
 
 // ===========================================================================
 //                              Protected Methods
