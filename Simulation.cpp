@@ -160,6 +160,7 @@ void Simulation::step_Division(void){
 		}
 	}
 	//c.Order them randomly
+	//http://www.cplusplus.com/reference/algorithm/random_shuffle/
 	
 	
 	//2)For each gap, we find the bacteria next to it with the highest fitness
