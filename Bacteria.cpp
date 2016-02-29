@@ -95,7 +95,7 @@ void Bacteria::Mutation(void){
   default_random_engine generator (seed);
 	uniform_real_distribution <double> distribution (0.0,1.0);
 	double prob = distribution(generator);
-	if(prob<this->Pmut){
+	if(prob < this->Pmut){
 		if(genotype == 1){
 			genotype = 2;
 		}
@@ -113,6 +113,7 @@ void Bacteria::Death(void){
 	if(prob<this->Pdeath){
 		alive = false;
 	}
+	cout << alive << endl;
 }
 
 void Bacteria::Fitness(void){

@@ -51,15 +51,17 @@ int main(int argc,char* argv[]) {
 	
 	double t_simulation = 10000;
    
+  Bacteria* bact = new Bacteria(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,0,0,1);  
+   
   Population* pop = new Population(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,W+H/2,W+H/2);
   
   Environment* envir = new Environment(W,H,D,Ainit);
-  envir->diffuse_all();
+  //~ envir->diffuse_all();
   
   Simulation* sim = new Simulation(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,
   D,Ainit,W+H/2,W+H/2,T,t_simulation);
   
-  sim->Algo_evol();
+  //~ sim->Algo_evol();
   
   delete envir;
 	delete pop;
