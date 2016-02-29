@@ -51,10 +51,11 @@ class Simulation {
 		//                              Public Methods
 		// =========================================================================
 		void step_Death(void);
+		void step_Division(void);
 		
 		void Algo_evol(void);
 		
-		//~ string Stat(void);
+		string Stat(void);
 
 	protected :
 		// =========================================================================
@@ -91,6 +92,7 @@ class Simulation {
 		int t_max;
 		Population* population;
 		Environment* envir;
+		int ** Gaps; //0: gap, 1: bacteria
 		
 		
 	// ===========================================================================

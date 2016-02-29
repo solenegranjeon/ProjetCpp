@@ -139,6 +139,7 @@ void Population::fitness_all(void){
 
 }
 
+
 //Getter
 
 bool Population::get_Status(int i){

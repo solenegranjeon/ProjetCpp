@@ -38,6 +38,14 @@ double A_init, int A, int B, int T, int t_max) {
 	this->T = T;
 	this->t_cur = 0;
 	
+	this->Gaps = new int*[W];
+	for (int rows = 0; rows < H; rows++){
+		Gaps[rows] = new int[H];
+		for( int col = 0; col <W; col++){
+			Gaps[rows][col] = 1;
+		}
+	}
+	
 	population = new Population(Raa, Rbb, Rab, Rbc, Pmut, Pdeath, Wmin, W, H, A, B);
 	envir = new Environment(W, H, D, A_init);
 }
@@ -52,6 +60,12 @@ double A_init, int A, int B, int T, int t_max) {
 Simulation::~Simulation() {
 	delete population;
 	delete envir;
+	for( int row = 0; row < H; row ++){
+		delete[] Gaps[row];
+		Gaps[row] = nullptr;
+	}
+	delete[] Gaps;
+	Gaps = nullptr;
 }
 
 // ===========================================================================
@@ -62,8 +76,8 @@ void Simulation::Algo_evol(void){
 	
 	while(t_cur<t_max){
 		
-		if(t_cur%T == 0){
-			// Reinitialization of the environment
+		// Every T, reinitialization of the environment
+		if(t_cur % T == 0){
 			envir->reinit();
 		}
 	
@@ -77,12 +91,14 @@ void Simulation::Algo_evol(void){
 		population->mutation_all();
 		
 		//Step division
+		step_Division();
 		
 		//Step living and adjusting the fitness
 		population->fitness_all();
 		
 		t_cur ++;
 	}
+	
 }
 
 void Simulation::step_Death(void){
@@ -106,6 +122,8 @@ void Simulation::step_Death(void){
 				envir->set_B(x,y,new_B);
 				envir->set_C(x,y,new_C);
 				
+				Gaps[x][y] = 0;
+				
 				delete population->pop[i];
 				population->pop[i] = nullptr;
 				
@@ -114,11 +132,58 @@ void Simulation::step_Death(void){
 	}
 }
 
-//~ string Simulation::Stat(void){
-	//~ string res = int(population->pop_A) + " " + int(population->pop_B) + " " +
-	//~ int(population->pop_Dead) + "\n";
-	//~ return res;
-//~ }
+void Simulation::step_Division(void){
+	
+	//1)We find the gaps and order them randomly
+	//a.We count the gaps
+	int nb_gaps = 0;
+		
+	for(int r = 0; r < H; r++){
+		for(int c = 0; c < W; c++){
+			if(Gaps[r][c] == 0){
+				nb_gaps ++;
+			}
+		}
+	}
+	
+	//b.We gather their position
+	int** pos_gaps = new int*[nb_gaps];
+	int i = 0;
+	for(int r = 0; r < H; r++){
+		for(int c = 0; c < W; c++){
+			if(Gaps[r][c] == 0){
+				pos_gaps[i] = new int[2];
+				pos_gaps[i][0] = r;
+				pos_gaps[i][1] = c;
+				i++;
+			}
+		}
+	}
+	//c.Order them randomly
+	
+	
+	//2)For each gap, we find the bacteria next to it with the highest fitness
+	
+	//3)This bacteria divides itself into 2:
+	//a.We split its concentration of A,B,C into 2 and 
+	//b.create a copy of this bacteria at the position of the gap.
+	
+	//4) Delete pos_gaps
+	for(int i = 0; i< nb_gaps; i++){
+		delete[] pos_gaps[i];
+		pos_gaps[i] = nullptr;
+	}
+	delete[] pos_gaps;
+	pos_gaps = nullptr;
+	
+}
+
+string Simulation::Stat(void){
+	string res = "" + to_string(population->pop_A) + " " + 
+	to_string(population->pop_B) + " " + to_string(population->pop_Dead) 
+	+ "\n" ;
+	return res;
+}
 
 // ===========================================================================
 //                              Protected Methods

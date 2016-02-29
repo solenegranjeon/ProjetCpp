@@ -8,6 +8,9 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <string>
+
+using namespace std;
 
 class Population {
 	
@@ -50,7 +53,6 @@ class Population {
 		void mutation_all(void);
 		void death_all(void);
 		void fitness_all(void);
-
 	protected :
 		// =========================================================================
 		//                             Protected Methods
