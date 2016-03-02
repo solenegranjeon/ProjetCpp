@@ -36,7 +36,7 @@ double A_init, int A, int B, int T, int t_max) {
 	
 	this->t_max = t_max;
 	this->T = T;
-	this->t_cur = 0;
+	this->t_cur = 1;
 	
 	this->Gaps = new int*[W];
 	for (int rows = 0; rows < H; rows++){
@@ -74,7 +74,11 @@ Simulation::~Simulation() {
 
 void Simulation::Algo_evol(void){
 	
-	while(t_cur<t_max){
+
+	
+	while(t_cur<=t_max){
+		
+			printf("Iteration %d :\n",t_cur);
 		
 		// Every T, reinitialization of the environment
 		if(t_cur % T == 0){
@@ -146,6 +150,9 @@ void Simulation::step_Division(void){
 		}
 	}
 	
+	//!!!!!!!!!!!!!!!!!!!!
+	printf("Nb of holes: %d.\n\n",nb_gaps);
+	
 	//b.We gather their position
 	int** pos_gaps = new int*[nb_gaps];
 	int i = 0;
@@ -164,9 +171,16 @@ void Simulation::step_Division(void){
 	random_shuffle(&pos_gaps[0],&pos_gaps[nb_gaps-1]);
 	
 	//2)For each gap, we find the bacteria next to it with the highest fitness
-	for( int i = 0; i < nb_gaps; i++){
-		
-	}
+	//~ for( int i = 0; i < nb_gaps; i++){
+		//~ int max_fitness = 0;
+		//~ //Coordinates of the Gap
+		//~ int x = Gaps[i][0];
+		//~ int y = Gaps[i][1];
+		//~ //Find the coordinates of the neigbors:
+		//~ for(int i = 0; i < 3; i++){
+			//~ if(
+		//~ }	
+	//~ }
 	
 	//3)This bacteria divides itself into 2:
 	//a.We split its concentration of A,B,C into 2 and 
