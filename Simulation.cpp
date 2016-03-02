@@ -161,9 +161,12 @@ void Simulation::step_Division(void){
 	}
 	//c.Order them randomly
 	//http://www.cplusplus.com/reference/algorithm/random_shuffle/
-	
+	random_shuffle(&pos_gaps[0],&pos_gaps[nb_gaps-1]);
 	
 	//2)For each gap, we find the bacteria next to it with the highest fitness
+	for( int i = 0; i < nb_gaps; i++){
+		
+	}
 	
 	//3)This bacteria divides itself into 2:
 	//a.We split its concentration of A,B,C into 2 and 

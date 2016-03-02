@@ -15,6 +15,7 @@
 #include <list>
 #include <ctime>
 #include <string>
+#include <algorithm>
 
 #include "Bacteria.h"
 #include "Population.h"
@@ -32,7 +33,7 @@ using namespace std;
 //                                    MAIN
 // ===========================================================================
 int main(int argc,char* argv[]) {
-  
+
   //Parameters:
   double Raa = 0.1;
   double Rbb = 0.1;

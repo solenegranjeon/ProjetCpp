@@ -9,6 +9,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <string>
+#include <algorithm>
+
 #include "Bacteria.h"
 #include "Population.h"
 #include "Environment.h"
