@@ -78,7 +78,7 @@ void Simulation::Algo_evol(void){
 	
 	while(t_cur<=t_max){
 		
-			printf("Iteration %d :\n",t_cur);
+		printf("Iteration %d :\n",t_cur);
 		
 		// Every T, reinitialization of the environment
 		if(t_cur % T == 0){
@@ -150,7 +150,6 @@ void Simulation::step_Division(void){
 		}
 	}
 	
-	//!!!!!!!!!!!!!!!!!!!!
 	printf("Nb of holes: %d.\n\n",nb_gaps);
 	
 	//b.We gather their position
@@ -166,22 +165,89 @@ void Simulation::step_Division(void){
 			}
 		}
 	}
+	
 	//c.Order them randomly
 	//http://www.cplusplus.com/reference/algorithm/random_shuffle/
 	random_shuffle(&pos_gaps[0],&pos_gaps[nb_gaps-1]);
 	
 	//2)For each gap, we find the bacteria next to it with the highest fitness
-	//~ for( int i = 0; i < nb_gaps; i++){
-		//~ int max_fitness = 0;
-		//~ //Coordinates of the Gap
-		//~ int x = Gaps[i][0];
-		//~ int y = Gaps[i][1];
-		//~ //Find the coordinates of the neigbors:
-		//~ for(int i = 0; i < 3; i++){
-			//~ if(
-		//~ }	
-	//~ }
+
+	for( int i = 0; i < nb_gaps; i++){
+		
+		int max_fitness = 0;
+		int nb_neighb = 0;
+		
+		//Coordinates of the Gap
+		int x = pos_gaps[i][0];
+		int y = pos_gaps[i][1];
+		
+		//Find the number of neigbors
+		// And Gather the neighbors:
+		
+		Bacteria* neighb [8];
+		for(int i = 0; i < 8; i++){
+			neighb[i] = nullptr;
+		}
+
+		for(int i = 0; i < 3; i++){
+			
+			if(Gaps[(x-1+i+W)%W][(y+1+H)%H] != 0){
+				nb_neighb ++;
+				//~ for(int i = 0; i < (population->pop_A + population->pop_B); i++){
+					//~ if(population->pop[i]->pos[0] == (x-1+i+W)%W && population->pop[i]->pos[1] == (y+1+H)%H){
+						//~ neighb[i]=population->pop[i];
+					//~ }
+				//~ }
+			}
+			
+			if(Gaps[(x-1+i+W)%W][(y-1+H)%H] != 0){
+				nb_neighb ++;
+				//~ for(int i = 0; i < (population->pop_A + population->pop_B); i++){
+					//~ if(population->pop[i]->pos[0] == (x-1+i+W)%W && population->pop[i]->pos[1] == (y-1+H)%H){
+						//~ neighb[i+3]=population->pop[i];
+					//~ }
+				//~ }
+			}
+			
+		}
+		
+		if(Gaps[(x-1+i+W)%W][(y+H)%H] != 0){
+			nb_neighb ++;
+			//~ for(int i = 0; i < (population->pop_A + population->pop_B); i++){
+				//~ if(population->pop[i]->pos[0] == (x-1+i+W)%W && population->pop[i]->pos[1] == (y+H)%H){
+					//~ neighb[6]=population->pop[i];
+				//~ }
+			//~ }
+		}
+		
+		if(Gaps[(x+1+i+W)%W][(y+H)%H] != 0){
+			nb_neighb ++;
+			//~ for(int i = 0; i < (population->pop_A + population->pop_B); i++){
+				//~ if(population->pop[i]->pos[0] == (x+1+i+W)%W && population->pop[i]->pos[1] == (y+H)%H){
+					//~ neighb[7]=population->pop[i];
+				//~ }
+			//~ }
+		}
+		
+		printf("Gap %d, %d neighbors. ",i,nb_neighb);
+
+		//Find best fitness and corresponding bacteria
 	
+		
+		//~ //Delete neighb
+		//~ for(int i = 0; i<8; i++){
+			//~ if(neighb[i] != nullptr){
+				//~ delete neighb[i];
+				//~ neighb[i] = nullptr;
+			//~ }
+		//~ }
+		//~ delete [] neighb;
+		//~ neighb = nullptr;
+
+	}
+	
+	printf("\n\n");
+
 	//3)This bacteria divides itself into 2:
 	//a.We split its concentration of A,B,C into 2 and 
 	//b.create a copy of this bacteria at the position of the gap.
