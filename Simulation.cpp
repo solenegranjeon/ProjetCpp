@@ -232,17 +232,7 @@ void Simulation::step_Division(void){
 		printf("Gap %d, %d neighbors. ",i,nb_neighb);
 
 		//Find best fitness and corresponding bacteria
-	
-		
-		//~ //Delete neighb
-		//~ for(int i = 0; i<8; i++){
-			//~ if(neighb[i] != nullptr){
-				//~ delete neighb[i];
-				//~ neighb[i] = nullptr;
-			//~ }
-		//~ }
-		//~ delete [] neighb;
-		//~ neighb = nullptr;
+
 
 	}
 	
