@@ -186,23 +186,23 @@ void Simulation::step_Division(void){
 		
 		int neighb [8];
 		for(int index_n = 0; index_n < 8; index_n++){
-			neighb[index_n] = 1063;
+			neighb[index_n] = 1063; //1063 no neighb
 		}
 
 		for(int up_down = 0; up_down < 3; up_down ++){
 			
-			if(Gaps[(x-1+up_down+W)%W][(y+1+H)%H] != 0){
+			if(Gaps[(x-1+up_down+W)%W][(y+1+H)%H] != 0){ //up
+				for(int index_bact = 0; index_bact < W+H; index_bact ++){
+					if(population->pop[index_bact] != nullptr){
+						if(population->pop[index_bact]->pos[0] == (x+W)%W && population->pop[index_bact]->pos[1] == (y+H)%H){
+							neighb[nb_neighb] = index_bact;
+						}
+					}
+				}
 				nb_neighb ++;
-				//~ for(int i = 0; i < W+H; i++){
-					//~ if(population->pop[i] != nullptr){
-						//~ if(population->pop[i]->pos[0] == (x-1+i+W)%W && population->pop[i]->pos[1] == (y+1+H)%H){
-							//~ neighb[i] = i;
-						//~ }
-					//~ }
-				//~ }
 			}
 			
-			if(Gaps[(x-1+up_down+W)%W][(y-1+H)%H] != 0){
+			if(Gaps[(x-1+up_down+W)%W][(y-1+H)%H] != 0){ // down
 				nb_neighb ++;
 				//~ for(int i = 0; i < (population->pop_A + population->pop_B); i++){
 					//~ if(population->pop[i]->pos[0] == (x-1+i+W)%W && population->pop[i]->pos[1] == (y-1+H)%H){
@@ -213,7 +213,7 @@ void Simulation::step_Division(void){
 			
 		}
 		
-		if(Gaps[(x-1+W)%W][(y+H)%H] != 0){
+		if(Gaps[(x-1+W)%W][(y+H)%H] != 0){ // left
 			nb_neighb ++;
 			//~ for(int i = 0; i < (population->pop_A + population->pop_B); i++){
 				//~ if(population->pop[i]->pos[0] == (x-1+i+W)%W && population->pop[i]->pos[1] == (y+H)%H){
@@ -222,7 +222,7 @@ void Simulation::step_Division(void){
 			//~ }
 		}
 		
-		if(Gaps[(x+1+W)%W][(y+H)%H] != 0){
+		if(Gaps[(x+1+W)%W][(y+H)%H] != 0){ // right
 			nb_neighb ++;
 			//~ for(int i = 0; i < (population->pop_A + population->pop_B); i++){
 				//~ if(population->pop[i]->pos[0] == (x+1+i+W)%W && population->pop[i]->pos[1] == (y+H)%H){
