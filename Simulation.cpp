@@ -252,8 +252,18 @@ void Simulation::step_Division(void){
 		}		
 		
 		//3)This bacteria divides itself into 2:
-		//a.We split its concentration of A,B,C into 2 and 
+		//a.We split its concentration of A,B,C into 2
+		//~ population->pop[index_best_bact]->phenotype[0] /= 2;
+		//~ population->pop[index_best_bact]->phenotype[1] /= 2;
+		//~ population->pop[index_best_bact]->phenotype[2] /= 2;
+		 
 		//b.create a copy of this bacteria at the position of the gap.
+		
+		//~ Bacteria* bact = new Bacteria(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,x_gap,y_gap,population->pop[index_best_bact]->genotype);
+		
+		//c. add it to the population at a position where there is a nullptr
+		//d. put a 1 at the position of the new bacteria in Gaps
+		//~ Gaps[x_gap][y_gap] = 1;
 		
 
 	}
