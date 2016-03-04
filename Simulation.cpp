@@ -141,15 +141,7 @@ void Simulation::step_Division(void){
 	//1)We find the gaps and order them randomly
 	//a.The number of gaps is the number of dead bacterias
 	int nb_gaps = population->pop_Dead;
-		
-	//~ for(int r = 0; r < H; r++){
-		//~ for(int c = 0; c < W; c++){
-			//~ if(Gaps[r][c] == 0){
-				//~ nb_gaps ++;
-			//~ }
-		//~ }
-	//~ }
-	
+
 	printf("Nb of holes: %d.\n\n",nb_gaps);
 	
 	//b.We gather their position
@@ -161,7 +153,6 @@ void Simulation::step_Division(void){
 				pos_gaps[index_gap] = new int[2];
 				pos_gaps[index_gap][0] = r;
 				pos_gaps[index_gap][1] = c;
-				printf("Position of the gap %d: %d, %d.\n",index_gap,r,c);
 				index_gap ++;
 			}
 		}
@@ -172,11 +163,13 @@ void Simulation::step_Division(void){
 	random_shuffle(&pos_gaps[0],&pos_gaps[nb_gaps-1]);
 	
 	//2)For each gap, we find the bacteria next to it with the highest fitness
+	//We keep the index of the bacterias in pop of population in the array neighb
 
-	for( int index_gap = 0; index_gap < nb_gaps; index_gap++){
+	for( int index_gap = 0; index_gap < nb_gaps; index_gap++){ //For each gap
 		
 		int max_fitness = 0;
 		int nb_neighb = 0;
+		int index_best_bact = -1;
 		
 		//Coordinates of the Gap
 		int x_gap = pos_gaps[index_gap][0];
@@ -190,7 +183,7 @@ void Simulation::step_Division(void){
 			neighb[index_n] = -1; //-1 no neighb
 		}
 
-		for(int up_down = 0; up_down < 3; up_down ++){
+		for(int up_down = 0; up_down < 3; up_down ++){ //up and down neighs
 			
 			if(Gaps[(x_gap-1+up_down+W)%W][(y_gap+1+H)%H] != 0){ //up
 				for(int index_bact = 0; index_bact < W*H; index_bact ++){
@@ -216,7 +209,7 @@ void Simulation::step_Division(void){
 			
 		}
 		
-		if(Gaps[(x_gap-1+W)%W][(y_gap+H)%H] != 0){ // left
+		if(Gaps[(x_gap-1+W)%W][(y_gap+H)%H] != 0){ // left neighb
 			for(int index_bact = 0; index_bact < W*H; index_bact ++){
 				if(population->pop[index_bact] != nullptr){
 					if(population->pop[index_bact]->pos[0] ==(x_gap-1+W)%W && population->pop[index_bact]->pos[1] == (y_gap+H)%H){
@@ -227,7 +220,7 @@ void Simulation::step_Division(void){
 			nb_neighb ++;
 		}
 		
-		if(Gaps[(x_gap+1+W)%W][(y_gap+H)%H] != 0){ // right
+		if(Gaps[(x_gap+1+W)%W][(y_gap+H)%H] != 0){ // right neighb
 			for(int index_bact = 0; index_bact < W*H; index_bact ++){
 				if(population->pop[index_bact] != nullptr){
 					if(population->pop[index_bact]->pos[0] ==(x_gap+1+W)%W && population->pop[index_bact]->pos[1] == (y_gap+H)%H){
@@ -238,22 +231,35 @@ void Simulation::step_Division(void){
 			nb_neighb ++;
 		}
 		
+		//To check:
 		printf("Gap %d, %d neighbors. Index of neighb: ",index_gap,nb_neighb);
 		for(int i=0; i<8; i++){
 			printf("%d,",neighb[i]);
 		}
 		printf("\n");
+		
+		//Shuffle neighbors
+		random_shuffle(&neighb[0],&neighb[nb_neighb-1]);
 
 		//Find best fitness and corresponding bacteria
-
+		if(nb_neighb != 0){
+			for(int index_n = 0; index_n < nb_neighb; index_n ++){
+				if(population->pop[neighb[index_n]]->fitness > max_fitness){
+					index_best_bact = neighb[index_n];
+					max_fitness = population->pop[neighb[index_n]]->fitness;
+				}
+			}
+		}		
+		
+		//3)This bacteria divides itself into 2:
+		//a.We split its concentration of A,B,C into 2 and 
+		//b.create a copy of this bacteria at the position of the gap.
+		
 
 	}
 	
 	printf("\n\n");
 
-	//3)This bacteria divides itself into 2:
-	//a.We split its concentration of A,B,C into 2 and 
-	//b.create a copy of this bacteria at the position of the gap.
 	
 	//4) Delete pos_gaps
 	for(int i = 0; i< nb_gaps; i++){
