@@ -139,29 +139,30 @@ void Simulation::step_Death(void){
 void Simulation::step_Division(void){
 	
 	//1)We find the gaps and order them randomly
-	//a.We count the gaps
-	int nb_gaps = 0;
+	//a.The number of gaps is the number of dead bacterias
+	int nb_gaps = population->pop_Dead;
 		
-	for(int r = 0; r < H; r++){
-		for(int c = 0; c < W; c++){
-			if(Gaps[r][c] == 0){
-				nb_gaps ++;
-			}
-		}
-	}
+	//~ for(int r = 0; r < H; r++){
+		//~ for(int c = 0; c < W; c++){
+			//~ if(Gaps[r][c] == 0){
+				//~ nb_gaps ++;
+			//~ }
+		//~ }
+	//~ }
 	
 	printf("Nb of holes: %d.\n\n",nb_gaps);
 	
 	//b.We gather their position
 	int** pos_gaps = new int*[nb_gaps];
-	int i = 0;
+	int index_gap = 0;
 	for(int r = 0; r < H; r++){
 		for(int c = 0; c < W; c++){
 			if(Gaps[r][c] == 0){
-				pos_gaps[i] = new int[2];
-				pos_gaps[i][0] = r;
-				pos_gaps[i][1] = c;
-				i++;
+				pos_gaps[index_gap] = new int[2];
+				pos_gaps[index_gap][0] = r;
+				pos_gaps[index_gap][1] = c;
+				printf("Position of the gap %d: %d, %d.\n",index_gap,r,c);
+				index_gap ++;
 			}
 		}
 	}
@@ -178,23 +179,23 @@ void Simulation::step_Division(void){
 		int nb_neighb = 0;
 		
 		//Coordinates of the Gap
-		int x = pos_gaps[index_gap][0];
-		int y = pos_gaps[index_gap][1];
+		int x_gap = pos_gaps[index_gap][0];
+		int y_gap = pos_gaps[index_gap][1];
 		
 		//Find the number of neigbors
 		// And Gather the neighbors:
 		
 		int neighb [8];
 		for(int index_n = 0; index_n < 8; index_n++){
-			neighb[index_n] = 1063; //1063 no neighb
+			neighb[index_n] = -1; //-1 no neighb
 		}
 
 		for(int up_down = 0; up_down < 3; up_down ++){
 			
-			if(Gaps[(x-1+up_down+W)%W][(y+1+H)%H] != 0){ //up
-				for(int index_bact = 0; index_bact < W+H; index_bact ++){
+			if(Gaps[(x_gap-1+up_down+W)%W][(y_gap+1+H)%H] != 0){ //up
+				for(int index_bact = 0; index_bact < W*H; index_bact ++){
 					if(population->pop[index_bact] != nullptr){
-						if(population->pop[index_bact]->pos[0] == (x+W)%W && population->pop[index_bact]->pos[1] == (y+H)%H){
+						if(population->pop[index_bact]->pos[0] == (x_gap-1+up_down+W)%W && population->pop[index_bact]->pos[1] == (y_gap+1+H)%H){
 							neighb[nb_neighb] = index_bact;
 						}
 					}
@@ -202,36 +203,46 @@ void Simulation::step_Division(void){
 				nb_neighb ++;
 			}
 			
-			if(Gaps[(x-1+up_down+W)%W][(y-1+H)%H] != 0){ // down
+			if(Gaps[(x_gap-1+up_down+W)%W][(y_gap-1+H)%H] != 0){ // down
+				for(int index_bact = 0; index_bact < W*H; index_bact ++){
+					if(population->pop[index_bact] != nullptr){
+						if(population->pop[index_bact]->pos[0] == (x_gap-1+up_down+W)%W && population->pop[index_bact]->pos[1] == (y_gap-1+H)%H){
+							neighb[nb_neighb] = index_bact;
+						}
+					}
+				}
 				nb_neighb ++;
-				//~ for(int i = 0; i < (population->pop_A + population->pop_B); i++){
-					//~ if(population->pop[i]->pos[0] == (x-1+i+W)%W && population->pop[i]->pos[1] == (y-1+H)%H){
-						//~ neighb[i+3]=i;
-					//~ }
-				//~ }
 			}
 			
 		}
 		
-		if(Gaps[(x-1+W)%W][(y+H)%H] != 0){ // left
+		if(Gaps[(x_gap-1+W)%W][(y_gap+H)%H] != 0){ // left
+			for(int index_bact = 0; index_bact < W*H; index_bact ++){
+				if(population->pop[index_bact] != nullptr){
+					if(population->pop[index_bact]->pos[0] ==(x_gap-1+W)%W && population->pop[index_bact]->pos[1] == (y_gap+H)%H){
+						neighb[nb_neighb] = index_bact;
+					}
+				}
+			}
 			nb_neighb ++;
-			//~ for(int i = 0; i < (population->pop_A + population->pop_B); i++){
-				//~ if(population->pop[i]->pos[0] == (x-1+i+W)%W && population->pop[i]->pos[1] == (y+H)%H){
-					//~ neighb[6]=i;
-				//~ }
-			//~ }
 		}
 		
-		if(Gaps[(x+1+W)%W][(y+H)%H] != 0){ // right
+		if(Gaps[(x_gap+1+W)%W][(y_gap+H)%H] != 0){ // right
+			for(int index_bact = 0; index_bact < W*H; index_bact ++){
+				if(population->pop[index_bact] != nullptr){
+					if(population->pop[index_bact]->pos[0] ==(x_gap+1+W)%W && population->pop[index_bact]->pos[1] == (y_gap+H)%H){
+						neighb[nb_neighb] = index_bact;
+					}
+				}
+			}
 			nb_neighb ++;
-			//~ for(int i = 0; i < (population->pop_A + population->pop_B); i++){
-				//~ if(population->pop[i]->pos[0] == (x+1+i+W)%W && population->pop[i]->pos[1] == (y+H)%H){
-					//~ neighb[7]=i;
-				//~ }
-			//~ }
 		}
 		
-		printf("Gap %d, %d neighbors. ",i,nb_neighb);
+		printf("Gap %d, %d neighbors. Index of neighb: ",index_gap,nb_neighb);
+		for(int i=0; i<8; i++){
+			printf("%d,",neighb[i]);
+		}
+		printf("\n");
 
 		//Find best fitness and corresponding bacteria
 
