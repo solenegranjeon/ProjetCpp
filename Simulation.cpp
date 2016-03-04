@@ -172,59 +172,61 @@ void Simulation::step_Division(void){
 	
 	//2)For each gap, we find the bacteria next to it with the highest fitness
 
-	for( int i = 0; i < nb_gaps; i++){
+	for( int index_gap = 0; index_gap < nb_gaps; index_gap++){
 		
 		int max_fitness = 0;
 		int nb_neighb = 0;
 		
 		//Coordinates of the Gap
-		int x = pos_gaps[i][0];
-		int y = pos_gaps[i][1];
+		int x = pos_gaps[index_gap][0];
+		int y = pos_gaps[index_gap][1];
 		
 		//Find the number of neigbors
 		// And Gather the neighbors:
 		
-		Bacteria* neighb [8];
-		for(int i = 0; i < 8; i++){
-			neighb[i] = nullptr;
+		int neighb [8];
+		for(int index_n = 0; index_n < 8; index_n++){
+			neighb[index_n] = 1063;
 		}
 
-		for(int i = 0; i < 3; i++){
+		for(int up_down = 0; up_down < 3; up_down ++){
 			
-			if(Gaps[(x-1+i+W)%W][(y+1+H)%H] != 0){
+			if(Gaps[(x-1+up_down+W)%W][(y+1+H)%H] != 0){
 				nb_neighb ++;
-				//~ for(int i = 0; i < (population->pop_A + population->pop_B); i++){
-					//~ if(population->pop[i]->pos[0] == (x-1+i+W)%W && population->pop[i]->pos[1] == (y+1+H)%H){
-						//~ neighb[i]=population->pop[i];
+				//~ for(int i = 0; i < W+H; i++){
+					//~ if(population->pop[i] != nullptr){
+						//~ if(population->pop[i]->pos[0] == (x-1+i+W)%W && population->pop[i]->pos[1] == (y+1+H)%H){
+							//~ neighb[i] = i;
+						//~ }
 					//~ }
 				//~ }
 			}
 			
-			if(Gaps[(x-1+i+W)%W][(y-1+H)%H] != 0){
+			if(Gaps[(x-1+up_down+W)%W][(y-1+H)%H] != 0){
 				nb_neighb ++;
 				//~ for(int i = 0; i < (population->pop_A + population->pop_B); i++){
 					//~ if(population->pop[i]->pos[0] == (x-1+i+W)%W && population->pop[i]->pos[1] == (y-1+H)%H){
-						//~ neighb[i+3]=population->pop[i];
+						//~ neighb[i+3]=i;
 					//~ }
 				//~ }
 			}
 			
 		}
 		
-		if(Gaps[(x-1+i+W)%W][(y+H)%H] != 0){
+		if(Gaps[(x-1+W)%W][(y+H)%H] != 0){
 			nb_neighb ++;
 			//~ for(int i = 0; i < (population->pop_A + population->pop_B); i++){
 				//~ if(population->pop[i]->pos[0] == (x-1+i+W)%W && population->pop[i]->pos[1] == (y+H)%H){
-					//~ neighb[6]=population->pop[i];
+					//~ neighb[6]=i;
 				//~ }
 			//~ }
 		}
 		
-		if(Gaps[(x+1+i+W)%W][(y+H)%H] != 0){
+		if(Gaps[(x+1+W)%W][(y+H)%H] != 0){
 			nb_neighb ++;
 			//~ for(int i = 0; i < (population->pop_A + population->pop_B); i++){
 				//~ if(population->pop[i]->pos[0] == (x+1+i+W)%W && population->pop[i]->pos[1] == (y+H)%H){
-					//~ neighb[7]=population->pop[i];
+					//~ neighb[7]=i;
 				//~ }
 			//~ }
 		}
