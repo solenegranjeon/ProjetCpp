@@ -37,14 +37,6 @@ double A_init, int A, int B, int T, int t_max) {
 	this->T = T;
 	this->t_cur = 1;
 	
-	this->Gaps = new int*[W];
-	for (int rows = 0; rows < H; rows++){
-		Gaps[rows] = new int[H];
-		for( int col = 0; col <W; col++){
-			Gaps[rows][col] = 1;
-		}
-	}
-	
 	population = new Population(Raa, Rbb, Rab, Rbc, Pmut, Pdeath, Wmin, W, H, A, B);
 	envir = new Environment(W, H, D, A_init);
 }
@@ -59,12 +51,6 @@ double A_init, int A, int B, int T, int t_max) {
 Simulation::~Simulation() {
 	delete population;
 	delete envir;
-	for( int row = 0; row < H; row ++){
-		delete[] Gaps[row];
-		Gaps[row] = nullptr;
-	}
-	delete[] Gaps;
-	Gaps = nullptr;
 }
 
 // ===========================================================================
@@ -108,7 +94,8 @@ void Simulation::step_Death(void){
 	//Bacterias die randomly
 	population->death_all();
 	
-	//The dead bacterias diffuse their content in the environment
+	//The dead bacterias diffuse their content in the environment and are
+	//deleted from the population after.
 	for(int i = 0; i < W; i++){
 		for(int j = 0; j < H; j++){
 					
@@ -126,8 +113,6 @@ void Simulation::step_Death(void){
 					envir->set_A(x,y,new_A);
 					envir->set_B(x,y,new_B);
 					envir->set_C(x,y,new_C);
-					
-					Gaps[x][y] = 0;
 					
 					delete population->pop[i][j];
 					population->pop[i][j] = nullptr;
@@ -155,7 +140,7 @@ void Simulation::step_Division(void){
 		int index_gap = 0;
 		for(int r = 0; r < H; r++){
 			for(int c = 0; c < W; c++){
-				if(Gaps[r][c] == 0){
+				if(population->pop[r][c] == nullptr){
 					pos_gaps[index_gap] = new int[2];
 					pos_gaps[index_gap][0] = r;
 					pos_gaps[index_gap][1] = c;
@@ -273,9 +258,6 @@ void Simulation::step_Division(void){
 				//c. add it to the population
 				//~ population->pop[x_gap][y_gap] = newBact;
 				
-				//d. put a 1 at the position of the new bacteria in Gaps
-				//~ Gaps[x_gap][y_gap] = 1;
-				
 			}
 
 		}
@@ -300,21 +282,24 @@ string Simulation::Stat(void){
 }
 
 int Simulation::count_Neighb(int x_gap, int y_gap){
+	
 	int res = 0;
+	
 	for(int up_down = 0; up_down < 3; up_down ++){ //up and down neighs
-		if(Gaps[(x_gap-1+up_down+W)%W][(y_gap+1+H)%H] != 0){ //up
+		if(population->pop[(x_gap-1+up_down+W)%W][(y_gap+1+H)%H] != nullptr){ //up
 			res ++;
 		}
-		if(Gaps[(x_gap-1+up_down+W)%W][(y_gap-1+H)%H] != 0){ // down
+		if(population->pop[(x_gap-1+up_down+W)%W][(y_gap-1+H)%H] != nullptr){ // down
 			res ++;
 		}
 	}
-	if(Gaps[(x_gap-1+W)%W][(y_gap+H)%H] != 0){ // left neighb
+	if(population->pop[(x_gap-1+W)%W][(y_gap+H)%H] != nullptr){ // left neighb
 		res ++;
 	}
-	if(Gaps[(x_gap+1+W)%W][(y_gap+H)%H] != 0){ // right neighb
+	if(population->pop[(x_gap+1+W)%W][(y_gap+H)%H] != nullptr){ // right neighb
 		res ++;
 	}
+	
 	return res;
 }
 

@@ -95,7 +95,6 @@ class Simulation {
 		int t_max;
 		Population* population;
 		Environment* envir;
-		int ** Gaps; //0: gap, 1: bacteria
 		
 		
 	// ===========================================================================
