@@ -36,7 +36,7 @@ class Population {
 		//                                  Getters
 		// =========================================================================
 		
-		bool get_Status(int);
+		bool get_Status(int,int);
 		
 		// =========================================================================
 		//                                  Setters
@@ -62,16 +62,16 @@ class Population {
 		//                                Attributes
 		// =========================================================================
 		
-		//Table containing pointers to Bacterias
-		Bacteria** pop;
+		//Matrix containing pointers to Bacterias at the right position
+		Bacteria*** pop;
 		
 		//Attributes of the population
 		int pop_A;
 		int pop_B;
 		int pop_Dead;
 		
-		int x_max;
-		int y_max;
+		int W;
+		int H;
 		
 		//Attributes needed to create bacterias
 		double Raa;

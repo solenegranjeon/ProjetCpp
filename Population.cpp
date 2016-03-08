@@ -30,41 +30,39 @@ double Pmut, double Pdeath, double Wmin, int W, int H, int A, int B){
 	pop_A = 0;
 	pop_B = 0;
 	pop_Dead = 0;
-	x_max = W;
-	y_max = H;
-
-	int index = 0;
+	this->W = W;
+	this->H = H;
 	
-	pop = new Bacteria*[W*H];
-	for(int i = 0; i<x_max; i++){
-		for(int j = 0; j<y_max; j++){
+	pop = new Bacteria**[W];
+	for(int i = 0; i< W; i++){
+		pop[i] = new Bacteria*[H];
+		for(int j = 0; j<H; j++){
 			int random = rand()%2;
 			//if random=0 -> A else B
 			if(random==0){
 				if(pop_A < A){
 					//Create bacteria A
-					pop[index] = new Bacteria(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,i,j,1);
+					pop[i][j] = new Bacteria(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,i,j,1);
 					pop_A ++;
 				}
 				else{
 					//Create B
-					pop[index] = new Bacteria(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,i,j,2);
+					pop[i][j] = new Bacteria(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,i,j,2);
 					pop_B ++;
 				}
 			}
 			if(random==1){
 				if(pop_B < B){
 					//Create B
-					pop[index] = new Bacteria(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,i,j,2);
+					pop[i][j] = new Bacteria(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,i,j,2);
 					pop_B ++;
 				}
 				else{
 					//Create A
-					pop[index] = new Bacteria(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,i,j,1);
+					pop[i][j] = new Bacteria(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,i,j,1);
 					pop_A ++;
 				}
 			}
-			index++;
 		}
 	}
 
@@ -76,11 +74,15 @@ double Pmut, double Pdeath, double Wmin, int W, int H, int A, int B){
 
 Population::~Population() {
 	
-	for(int i = 0; i<x_max*y_max; i++){
-		if(pop[i] != nullptr){
-			delete pop[i];
+	for(int i = 0; i<W; i++){
+		for( int j = 0; j < H; j++){
+			if(pop[i][j] != nullptr){
+				delete pop[i][j];
+			}
 		}
+		delete[] pop[i];
 	}
+	
 	delete[] pop;
 	pop = nullptr;
 	
@@ -91,20 +93,24 @@ Population::~Population() {
 // ===========================================================================
 void Population::mutation_all(void){
 	
-	for(int i = 0; i<x_max*y_max; i++){
-		if( pop[i] != nullptr){
-			int state1 = pop[i]->Geno();
-			pop[i]->Mutation();
-			if(state1 != pop[i]->Geno()){
-				if(state1 == 1){
-					pop_A --;
-					pop_B ++;
-				}
-				else{
-					pop_A ++;
-					pop_B --;
+	for(int i = 0; i < W; i++){
+		for(int j = 0; j < H; j++){
+			
+			if( pop[i][j] != nullptr){
+				int state1 = pop[i][j]->Geno();
+				pop[i][j]->Mutation();
+				if(state1 != pop[i][j]->Geno()){
+					if(state1 == 1){
+						pop_A --;
+						pop_B ++;
+					}
+					else{
+						pop_A ++;
+						pop_B --;
+					}
 				}
 			}
+			
 		}
 	}
 	
@@ -112,18 +118,22 @@ void Population::mutation_all(void){
 
 void Population::death_all(void){
 
-	for(int i = 0; i<x_max*y_max; i++){
-		if(pop[i] != nullptr){
-			pop[i]->Death();
-			if(pop[i]->Alive() == false){
-				pop_Dead ++;
-				if(pop[i]->Geno() == 1){
-					pop_A --;
-				}
-				else{
-					pop_B --;
+	for(int i = 0; i<W; i++){
+		for(int j = 0; j < H; j++){
+			
+			if(pop[i][j] != nullptr){
+				pop[i][j]->Death();
+				if(pop[i][j]->Alive() == false){
+					pop_Dead ++;
+					if(pop[i][j]->Geno() == 1){
+						pop_A --;
+					}
+					else{
+						pop_B --;
+					}
 				}
 			}
+			
 		}
 	}
 
@@ -131,9 +141,13 @@ void Population::death_all(void){
 
 void Population::fitness_all(void){
 
-	for(int i = 0; i<x_max*y_max; i++){
-		if(pop[i] != nullptr){
-			pop[i]->Fitness();
+	for(int i = 0; i<W; i++){
+		for(int j = 0; j<H; j++){
+			
+			if(pop[i][j] != nullptr){
+				pop[i][j]->Fitness();
+			}
+			
 		}
 	}
 
@@ -142,8 +156,8 @@ void Population::fitness_all(void){
 
 //Getter
 
-bool Population::get_Status(int i){
-	return pop[i]->Alive();
+bool Population::get_Status(int x, int y){
+	return pop[x][y]->Alive();
 }
 
 // ===========================================================================
