@@ -71,7 +71,7 @@ double Pmut, double Pdeath, double Wmin, int x, int y, int geno){
 	this->alive = true;
 	this->can_divide = false;
 	this->genotype = geno;
-	this->fitness = 0.0001; //0
+	this->fitness = 0;
 
 }
 
