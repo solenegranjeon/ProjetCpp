@@ -127,6 +127,12 @@ void Bacteria::Fitness(void){
 	}
 }
 
+void Bacteria::Divide(void){
+	phenotype[0] /= 2;
+	phenotype[1] /= 2;
+	phenotype[2] /= 2;
+}
+
 
 //Getters
 
@@ -164,6 +170,15 @@ bool Bacteria::Alive(void){
 
 bool Bacteria::Can_Divide(void){
 	return can_divide;
+}
+
+//Setter
+void Bacteria::set_x(int x){
+	pos[0] = x;
+}
+
+void Bacteria::set_y(int y){
+	pos[1] = y;
 }
 
 // ===========================================================================

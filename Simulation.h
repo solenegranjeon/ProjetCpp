@@ -54,6 +54,7 @@ class Simulation {
 		// =========================================================================
 		void step_Death(void);
 		void step_Division(void);
+		int count_Neighb(int,int);
 		
 		void Algo_evol(void);
 		

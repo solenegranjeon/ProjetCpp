@@ -168,7 +168,6 @@ void Simulation::step_Division(void){
 	for( int index_gap = 0; index_gap < nb_gaps; index_gap++){ //For each gap
 		
 		int max_fitness = 0;
-		int nb_neighb = 0;
 		int index_best_bact = -1;
 		
 		//Coordinates of the Gap
@@ -176,35 +175,36 @@ void Simulation::step_Division(void){
 		int y_gap = pos_gaps[index_gap][1];
 		
 		//Find the number of neigbors
+		int nb_neighb = count_Neighb(x_gap, y_gap);		
+		
 		// And Gather the neighbors:
 		
-		int neighb [8];
-		for(int index_n = 0; index_n < 8; index_n++){
-			neighb[index_n] = -1; //-1 no neighb
-		}
+		int neighb [nb_neighb];
+		
+		int index_tab = 0;
 
-		for(int up_down = 0; up_down < 3; up_down ++){ //up and down neighs
+		for(int up_down = 0; up_down < 3; up_down ++){ //up and down neighbs
 			
 			if(Gaps[(x_gap-1+up_down+W)%W][(y_gap+1+H)%H] != 0){ //up
 				for(int index_bact = 0; index_bact < W*H; index_bact ++){
 					if(population->pop[index_bact] != nullptr){
 						if(population->pop[index_bact]->pos[0] == (x_gap-1+up_down+W)%W && population->pop[index_bact]->pos[1] == (y_gap+1+H)%H){
-							neighb[nb_neighb] = index_bact;
+							neighb[index_tab] = index_bact;
 						}
 					}
 				}
-				nb_neighb ++;
+				index_tab ++;
 			}
 			
 			if(Gaps[(x_gap-1+up_down+W)%W][(y_gap-1+H)%H] != 0){ // down
 				for(int index_bact = 0; index_bact < W*H; index_bact ++){
 					if(population->pop[index_bact] != nullptr){
 						if(population->pop[index_bact]->pos[0] == (x_gap-1+up_down+W)%W && population->pop[index_bact]->pos[1] == (y_gap-1+H)%H){
-							neighb[nb_neighb] = index_bact;
+							neighb[index_tab] = index_bact;
 						}
 					}
 				}
-				nb_neighb ++;
+				index_tab ++;
 			}
 			
 		}
@@ -213,22 +213,22 @@ void Simulation::step_Division(void){
 			for(int index_bact = 0; index_bact < W*H; index_bact ++){
 				if(population->pop[index_bact] != nullptr){
 					if(population->pop[index_bact]->pos[0] ==(x_gap-1+W)%W && population->pop[index_bact]->pos[1] == (y_gap+H)%H){
-						neighb[nb_neighb] = index_bact;
+						neighb[index_tab] = index_bact;
 					}
 				}
 			}
-			nb_neighb ++;
+			index_tab ++;
 		}
 		
 		if(Gaps[(x_gap+1+W)%W][(y_gap+H)%H] != 0){ // right neighb
 			for(int index_bact = 0; index_bact < W*H; index_bact ++){
 				if(population->pop[index_bact] != nullptr){
 					if(population->pop[index_bact]->pos[0] ==(x_gap+1+W)%W && population->pop[index_bact]->pos[1] == (y_gap+H)%H){
-						neighb[nb_neighb] = index_bact;
+						neighb[index_tab] = index_bact;
 					}
 				}
 			}
-			nb_neighb ++;
+			index_tab ++;
 		}
 		
 		//To check:
@@ -242,26 +242,38 @@ void Simulation::step_Division(void){
 		random_shuffle(&neighb[0],&neighb[nb_neighb-1]);
 
 		//Find best fitness and corresponding bacteria
-		if(nb_neighb != 0){
-			for(int index_n = 0; index_n < nb_neighb; index_n ++){
-				if(population->pop[neighb[index_n]]->fitness > max_fitness){
-					index_best_bact = neighb[index_n];
-					max_fitness = population->pop[neighb[index_n]]->fitness;
-				}
-			}
-		}		
+		//~ if(nb_neighb != 0){
+			//~ for(int index_n = 0; index_n < nb_neighb; index_n ++){
+				//~ if(population->pop[neighb[index_n]]->fitness > max_fitness && neighb[index_n] != -1 ){
+					//~ index_best_bact = neighb[index_n];
+					//~ max_fitness = population->pop[neighb[index_n]]->fitness;
+				//~ }
+			//~ }
+		//~ }		
 		
 		//3)This bacteria divides itself into 2:
 		//a.We split its concentration of A,B,C into 2
-		//~ population->pop[index_best_bact]->phenotype[0] /= 2;
-		//~ population->pop[index_best_bact]->phenotype[1] /= 2;
-		//~ population->pop[index_best_bact]->phenotype[2] /= 2;
+		//~ printf("index best bact %d \n",index_best_bact);
+		//~ population->pop[index_best_bact]->Divide();
 		 
 		//b.create a copy of this bacteria at the position of the gap.
 		
-		//~ Bacteria* bact = new Bacteria(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,x_gap,y_gap,population->pop[index_best_bact]->genotype);
+		//~ Bacteria* newBact = new Bacteria(*(population->pop[index_best_bact]));
+		//~ newBact->set_x(x_gap);
+		//~ newBact->set_y(y_gap);
 		
 		//c. add it to the population at a position where there is a nullptr
+		//~ bool done = false;
+		//~ int index = 0;
+		//~ while(done == false){
+			//~ Bacteria* pointer = population->pop[index];
+			//~ index ++;
+			//~ if(pointer == nullptr){
+				//~ pointer = newBact;
+				//~ done = true;
+			//~ }
+		//~ }
+		
 		//d. put a 1 at the position of the new bacteria in Gaps
 		//~ Gaps[x_gap][y_gap] = 1;
 		
@@ -287,6 +299,26 @@ string Simulation::Stat(void){
 	+ "\n" ;
 	return res;
 }
+
+int Simulation::count_Neighb(int x_gap, int y_gap){
+	int res = 0;
+	for(int up_down = 0; up_down < 3; up_down ++){ //up and down neighs
+		if(Gaps[(x_gap-1+up_down+W)%W][(y_gap+1+H)%H] != 0){ //up
+			res ++;
+		}
+		if(Gaps[(x_gap-1+up_down+W)%W][(y_gap-1+H)%H] != 0){ // down
+			res ++;
+		}
+	}
+	if(Gaps[(x_gap-1+W)%W][(y_gap+H)%H] != 0){ // left neighb
+		res ++;
+	}
+	if(Gaps[(x_gap+1+W)%W][(y_gap+H)%H] != 0){ // right neighb
+		res ++;
+	}
+	return res;
+}
+
 
 // ===========================================================================
 //                              Protected Methods

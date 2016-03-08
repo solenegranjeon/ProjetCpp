@@ -47,7 +47,8 @@ class Bacteria {
 		// =========================================================================
 		//                                  Setters
 		// =========================================================================
-
+		void set_x(int);
+		void set_y(int);
 		
 		// =========================================================================
 		//                                 Operators
@@ -60,6 +61,7 @@ class Bacteria {
 		void Mutation(void);
 		void Death(void);
 		void Fitness(void);
+		void Divide(void);
 
 
 	protected :
