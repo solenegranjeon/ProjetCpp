@@ -16,6 +16,7 @@
 #include <ctime>
 #include <string>
 #include <algorithm>
+#include <random>
 
 #include "Bacteria.h"
 #include "Population.h"

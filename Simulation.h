@@ -10,6 +10,8 @@
 #include <cstdlib>
 #include <string>
 #include <algorithm>
+#include <vector>
+#include <random>
 
 #include "Bacteria.h"
 #include "Population.h"

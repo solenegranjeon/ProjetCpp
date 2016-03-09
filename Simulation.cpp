@@ -164,94 +164,91 @@ void Simulation::step_Division(void){
 			//Find the number of neigbors
 			int nb_neighb = count_Neighb(x_gap, y_gap);	
 			
-				if( nb_neighb > 0){
+			if( nb_neighb > 0){ //If there are any,
 				
-				int max_fitness = 0;
-				int index_best_bact_x = -1;
-				int index_best_bact_y = -1;	
-				
-				// And Gather the neighbors:
-				//~ 
-				//~ int neighb [nb_neighb];
-				//~ 
-				//~ int index_tab = 0;
-		//~ 
-				//~ for(int up_down = 0; up_down < 3; up_down ++){ //up and down neighbs
-					//~ 
-					//~ if(Gaps[(x_gap-1+up_down+W)%W][(y_gap+1+H)%H] != 0){ //up
-						//~ for(int index_bact = 0; index_bact < W*H; index_bact ++){
-							//~ if(population->pop[index_bact] != nullptr){
-								//~ if(population->pop[index_bact]->pos[0] == (x_gap-1+up_down+W)%W && population->pop[index_bact]->pos[1] == (y_gap+1+H)%H){
-									//~ neighb[index_tab] = index_bact;
-								//~ }
-							//~ }
-						//~ }
-						//~ index_tab ++;
-					//~ }
-					//~ 
-					//~ if(Gaps[(x_gap-1+up_down+W)%W][(y_gap-1+H)%H] != 0){ // down
-						//~ for(int index_bact = 0; index_bact < W*H; index_bact ++){
-							//~ if(population->pop[index_bact] != nullptr){
-								//~ if(population->pop[index_bact]->pos[0] == (x_gap-1+up_down+W)%W && population->pop[index_bact]->pos[1] == (y_gap-1+H)%H){
-									//~ neighb[index_tab] = index_bact;
-								//~ }
-							//~ }
-						//~ }
-						//~ index_tab ++;
-					//~ }
-					//~ 
-				//~ }
-				//~ 
-				//~ if(Gaps[(x_gap-1+W)%W][(y_gap+H)%H] != 0){ // left neighb
-					//~ for(int index_bact = 0; index_bact < W*H; index_bact ++){
-						//~ if(population->pop[index_bact] != nullptr){
-							//~ if(population->pop[index_bact]->pos[0] ==(x_gap-1+W)%W && population->pop[index_bact]->pos[1] == (y_gap+H)%H){
-								//~ neighb[index_tab] = index_bact;
-							//~ }
-						//~ }
-					//~ }
-					//~ index_tab ++;
-				//~ }
-				//~ 
-				//~ if(Gaps[(x_gap+1+W)%W][(y_gap+H)%H] != 0){ // right neighb
-					//~ for(int index_bact = 0; index_bact < W*H; index_bact ++){
-						//~ if(population->pop[index_bact] != nullptr){
-							//~ if(population->pop[index_bact]->pos[0] ==(x_gap+1+W)%W && population->pop[index_bact]->pos[1] == (y_gap+H)%H){
-								//~ neighb[index_tab] = index_bact;
-							//~ }
-						//~ }
-					//~ }
-					//~ index_tab ++;
-				//~ }
-				
-				//To check:
-				//~ printf("Gap %d, %d neighbors. Index of neighb: ",index_gap,nb_neighb);
-				//~ for(int i=0; i<8; i++){
-					//~ printf("%d,",neighb[i]);
-				//~ }
-				//~ printf("\n");
-				
-				//Shuffle neighbors
-				//~ random_shuffle(&neighb[0],&neighb[nb_neighb-1]);
+				double max_fitness = 0;
 
-				//Find best fitness and corresponding bacteria
-				//~ if(nb_neighb != 0){
-					//~ for(int index_n = 0; index_n < nb_neighb; index_n ++){
-						//~ if(population->pop[neighb[index_n]]->fitness > max_fitness && neighb[index_n] != -1 ){
-							//~ index_best_bact = neighb[index_n];
-							//~ max_fitness = population->pop[neighb[index_n]]->fitness;
-						//~ }
-					//~ }
-				//~ }		
+				//Find the best fitness from the fitness of all neighbors
+				for(int up_down = 0; up_down < 3; up_down ++){ //up and down neighbs
+					
+					if(population->pop[(x_gap-1+up_down+W)%W][(y_gap+1+H)%H] != nullptr){ //up;
+						if(population->pop[(x_gap-1+up_down+W)%W][(y_gap+1+H)%H]->Fit() > max_fitness){
+							max_fitness = population->pop[(x_gap-1+up_down+W)%W][(y_gap+1+H)%H]->Fit();
+							
+						}
+					}
+					
+					if(population->pop[(x_gap-1+up_down+W)%W][(y_gap-1+H)%H] != nullptr){ // down
+						if(population->pop[(x_gap-1+up_down+W)%W][(y_gap-1+H)%H]->Fit() > max_fitness){
+							max_fitness = population->pop[(x_gap-1+up_down+W)%W][(y_gap-1+H)%H]->Fit();
+						}
+					}
+					
+				}
+				
+				if(population->pop[(x_gap-1+W)%W][(y_gap+H)%H] != nullptr){ // left neighb
+					if(population->pop[(x_gap-1+W)%W][(y_gap+H)%H]->Fit() > max_fitness){
+						max_fitness = population->pop[(x_gap-1+W)%W][(y_gap+H)%H]->Fit();
+					}
+				}
+				
+				if(population->pop[(x_gap+1+W)%W][(y_gap+H)%H] != nullptr){ // right neighb
+					if(population->pop[(x_gap+1+W)%W][(y_gap+H)%H]->Fit() > max_fitness){
+						max_fitness = population->pop[(x_gap+1+W)%W][(y_gap+H)%H]->Fit();
+					}
+				}
+				
+				//~ printf("Max Fitness %f ",max_fitness);
+
+				//Find the bacterias with this fitness
+				vector<int> x_best = {};
+				vector<int> y_best = {};
+				
+				for(int up_down = 0; up_down < 3; up_down ++){ //up and down neighbs
+					
+					if(population->pop[(x_gap-1+up_down+W)%W][(y_gap+1+H)%H] != nullptr){ //up;
+						if(population->pop[(x_gap-1+up_down+W)%W][(y_gap+1+H)%H]->Fit() == max_fitness){
+							x_best.push_back((x_gap-1+up_down+W)%W);
+							y_best.push_back((y_gap+1+H)%H);
+						}
+					}
+					
+					if(population->pop[(x_gap-1+up_down+W)%W][(y_gap-1+H)%H] != nullptr){ // down
+						if(population->pop[(x_gap-1+up_down+W)%W][(y_gap-1+H)%H]->Fit() == max_fitness){
+							x_best.push_back((x_gap-1+up_down+W)%W);
+							y_best.push_back((y_gap-1+H)%H);
+						}
+					}
+					
+				}
+				
+				if(population->pop[(x_gap-1+W)%W][(y_gap+H)%H] != nullptr){ // left neighb
+					if(population->pop[(x_gap-1+W)%W][(y_gap+H)%H]->Fit() == max_fitness){
+						x_best.push_back((x_gap-1+W)%W);
+						y_best.push_back((y_gap+H)%H);
+					}
+				}
+				
+				if(population->pop[(x_gap+1+W)%W][(y_gap+H)%H] != nullptr){ // right neighb
+					if(population->pop[(x_gap+1+W)%W][(y_gap+H)%H]->Fit() == max_fitness){
+						x_best.push_back((x_gap+1+W)%W);
+						y_best.push_back((y_gap+H)%H);
+					}
+				}
+				
+				//Randomly chose one of them
+				int index = 0;
+				if(x_best.size()>1){
+					index = rand()%x_best.size();
+				}
 				
 				//3)This bacteria divides itself into 2:
 				//a.We split its concentration of A,B,C into 2
-				//~ printf("index best bact %d \n",index_best_bact);
-				//~ population->pop[index_best_bact]->Divide();
+				population->pop[x_best[index]][y_best[index]]->Divide();
 				 
 				//b.create a copy of this bacteria at the position of the gap.
 				
-				//~ Bacteria* newBact = new Bacteria(*(population->pop[index_best_bact]));
+				//~ Bacteria* newBact = new Bacteria(*(population->pop[x_best[index]][y_best[index]]));
 				//~ newBact->set_x(x_gap);
 				//~ newBact->set_y(y_gap);
 				
