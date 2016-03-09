@@ -86,6 +86,8 @@ void Simulation::Algo_evol(void){
 		population->fitness_all();
 		
 		t_cur ++;
+		
+		printf("\n\n");
 	}
 	
 }
@@ -133,7 +135,7 @@ void Simulation::step_Division(void){
 	
 	if(nb_gaps > 0){
 
-		printf("Nb of holes: %d.\n\n",nb_gaps);
+		printf("Nb of holes: %d.\n",nb_gaps);
 		
 		//b.We gather their position
 		int** pos_gaps = new int*[nb_gaps];
@@ -242,15 +244,17 @@ void Simulation::step_Division(void){
 					index = rand()%x_best.size();
 				}
 				
+				printf("Index best bact %d.",index);
+				
 				//3)This bacteria divides itself into 2:
 				//a.We split its concentration of A,B,C into 2
 				population->pop[x_best[index]][y_best[index]]->Divide();
 				 
 				//b.create a copy of this bacteria at the position of the gap.
 				
-				//~ Bacteria* newBact = new Bacteria(*(population->pop[x_best[index]][y_best[index]]));
-				//~ newBact->set_x(x_gap);
-				//~ newBact->set_y(y_gap);
+				Bacteria* newBact = new Bacteria(*(population->pop[x_best[index]][y_best[index]]));
+				newBact->set_x(x_gap);
+				newBact->set_y(y_gap);
 				
 				//c. add it to the population
 				//~ population->pop[x_gap][y_gap] = newBact;
