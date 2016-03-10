@@ -206,21 +206,19 @@ void Simulation::step_Division(void){
 
 		printf("Nb of holes: %d.\n",nb_gaps);
 		
-		//~ //b.We gather their position
-		//~ int** pos_gaps = new int*[nb_gaps];
-		//~ int index_gap = 0;
-		//~ for(int r = 0; r < H; r++){
-			//~ for(int c = 0; c < W; c++){
-				//~ if(population->pop[r][c]->Alive() == false){
-					//~ pos_gaps[index_gap] = new int[2];
-					//~ pos_gaps[index_gap][0] = r;
-					//~ pos_gaps[index_gap][1] = c;
-					//~ index_gap ++;
-				//~ }
-			//~ }
-		//~ }
-//~ 
-		//~ printf("Size of pos_gaps %d ", sizeof(pos_gaps));
+		//b.We gather their position
+		int** pos_gaps = new int*[nb_gaps];
+		int index_gap = 0;
+		for(int r = 0; r < H; r++){
+			for(int c = 0; c < W; c++){
+				if(population->pop[r][c]->Alive() == false){
+					pos_gaps[index_gap] = new int[2];
+					pos_gaps[index_gap][0] = r;
+					pos_gaps[index_gap][1] = c;
+					index_gap ++;
+				}
+			}
+		}
 		
 		//c.Order them randomly
 		//http://www.cplusplus.com/reference/algorithm/random_shuffle/
@@ -341,12 +339,13 @@ void Simulation::step_Division(void){
 		//~ }
 			//~ 
 		//4) Delete pos_gaps
-		//~ for(int i = 0; i< nb_gaps; i++){
-			//~ delete[] pos_gaps[i];
-			//~ pos_gaps[i] = nullptr;
-		//~ }
-		//~ delete[] pos_gaps;
-		//~ pos_gaps = nullptr;
+		for(int i = 0; i< nb_gaps; i++){
+			printf("Gap %d, Position %d, %d",i,pos_gaps[i][0], pos_gaps[i][1]);
+			delete[] pos_gaps[i];
+			pos_gaps[i] = nullptr;
+		}
+		delete[] pos_gaps;
+		pos_gaps = nullptr;
 		
 	}
 	
