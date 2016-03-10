@@ -96,10 +96,10 @@ void Population::mutation_all(void){
 	for(int i = 0; i < W; i++){
 		for(int j = 0; j < H; j++){
 			
-			if( pop[i][j]->Alive() == 	true){
-				int state1 = pop[i][j]->Geno();
+			if( pop[i][j]->alive == 	true){
+				int state1 = pop[i][j]->genotype;
 				pop[i][j]->Mutation();
-				if(state1 != pop[i][j]->Geno()){
+				if(state1 != pop[i][j]->genotype){
 					if(state1 == 1){
 						pop_A --;
 						pop_B ++;
@@ -121,12 +121,12 @@ void Population::death_all(void){
 	for(int i = 0; i<W; i++){
 		for(int j = 0; j < H; j++){
 			
-			if(pop[i][j]->Alive() == true){
+			if(pop[i][j]->alive == true){
 				
 				pop[i][j]->Death();
-				if(pop[i][j]->Alive() == false){
+				if(pop[i][j]->just_died == true){
 					pop_Dead ++;
-					if(pop[i][j]->Geno() == 1){
+					if(pop[i][j]->just_died == 1){
 						pop_A --;
 					}
 					else{
@@ -146,7 +146,7 @@ void Population::fitness_all(void){
 	for(int i = 0; i<W; i++){
 		for(int j = 0; j<H; j++){
 			
-			if(pop[i][j]->Alive() == true){
+			if(pop[i][j]->alive == true){
 				pop[i][j]->Fitness();
 			}
 			
@@ -155,12 +155,6 @@ void Population::fitness_all(void){
 
 }
 
-
-//Getter
-
-bool Population::get_Status(int x, int y){
-	return pop[x][y]->Alive();
-}
 
 // ===========================================================================
 //                              Protected Methods

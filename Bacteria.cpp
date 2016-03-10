@@ -132,17 +132,6 @@ void Bacteria::Relive(double A, double B, double C, int geno){
 
 //Getters
 
-int Bacteria::Geno(void){
-	return genotype;
-}
-
-int Bacteria::pos_x(void){
-	return pos[0];
-}
-
-int Bacteria::pos_y(void){
-	return pos[1];
-}
 
 double Bacteria::A_in(void){
 	return phenotype[0];
@@ -156,17 +145,6 @@ double Bacteria::C_in(void){
 	return phenotype[2];
 }
 
-double Bacteria::Fit(void){
-	return fitness;
-}
-
-bool Bacteria::Alive(void){
-	return alive;
-}
-
-bool Bacteria::Can_Divide(void){
-	return can_divide;
-}
 
 //Setter
 void Bacteria::set_x(int x){

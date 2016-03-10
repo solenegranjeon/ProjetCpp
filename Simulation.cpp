@@ -64,8 +64,6 @@ void Simulation::Algo_evol(void){
 	
 	while(t_cur<=t_max){
 		
-		printf("Iteration %d :\n",t_cur);
-		
 		// Every T, reinitialization of the environment
 		if(t_cur % T == 0){
 			envir->reinit();
@@ -94,7 +92,11 @@ void Simulation::Algo_evol(void){
 		
 		t_cur ++;
 		
+		printf("Iteration %d :\n",t_cur);
+		cout << Stat() << endl;
+		printf("Total %d",population->pop_A + population->pop_B + population->pop_Dead);
 		printf("\n\n");
+		
 	}
 	
 }
@@ -207,15 +209,13 @@ void Simulation::step_Division(void){
 	int nb_gaps = population->pop_Dead;
 	
 	if(nb_gaps > 0){
-
-		printf("Nb of holes: %d.\n",nb_gaps);
 		
 		//b.We gather their position
 		int** pos_gaps = new int*[nb_gaps];
 		int index_gap = 0;
 		for(int r = 0; r < H; r++){
 			for(int c = 0; c < W; c++){
-				if(population->pop[r][c]->Alive() == false){
+				if(population->pop[r][c]->alive == false){
 					pos_gaps[index_gap] = new int[2];
 					pos_gaps[index_gap][0] = r;
 					pos_gaps[index_gap][1] = c;
@@ -273,7 +273,7 @@ void Simulation::step_Division(void){
 					}
 				}
 				
-				printf("Max Fitness %f ",max_fitness);
+				//~ printf("Max Fitness %f ",max_fitness);
 
 				//Find the bacterias with this fitness
 				vector<int> x_best = {};
@@ -326,12 +326,21 @@ void Simulation::step_Division(void){
 				double ph_B = population->pop[x_best[index]][y_best[index]]->phenotype[1];
 				double ph_C = population->pop[x_best[index]][y_best[index]]->phenotype[2];
 				int geno = population->pop[x_best[index]][y_best[index]]->genotype;
-				printf("Pos gap %d, %d\n", x_gap, y_gap);
-				printf("Params : %f, %f, %f, %d\n", ph_A, ph_B, ph_C, geno); 
-				//~ population->pop[x_gap][y_gap]->Relive(ph_A,ph_B,ph_C,geno);
 				
-				//~ //c. Change stats of population
-				//~ 
+				//~ printf("Pos gap %d, %d\n", x_gap, y_gap);
+				//~ printf("Params : %f, %f, %f, %d\n", ph_A, ph_B, ph_C, geno); 
+	
+				population->pop[x_gap][y_gap]->Relive(ph_A,ph_B,ph_C,geno);
+				
+				//c. Change stats of population
+				population->pop_Dead --;
+				if(population->pop[x_gap][y_gap]->genotype == 1){
+					population->pop_A ++;
+				}
+				else{
+					population->pop_B ++;
+				}
+				
 			}
 
 		}
@@ -378,17 +387,17 @@ int Simulation::count_Neighb(int x_gap, int y_gap){
 	int res = 0;
 	
 	for(int up_down = 0; up_down < 3; up_down ++){ //up and down neighs
-		if(population->pop[(x_gap-1+up_down+W)%W][(y_gap+1+H)%H]->Alive() == true){ //up
+		if(population->pop[(x_gap-1+up_down+W)%W][(y_gap+1+H)%H]->can_divide == true){ //up
 			res ++;
 		}
-		if(population->pop[(x_gap-1+up_down+W)%W][(y_gap-1+H)%H]->Alive() == true){ // down
+		if(population->pop[(x_gap-1+up_down+W)%W][(y_gap-1+H)%H]->can_divide == true){ // down
 			res ++;
 		}
 	}
-	if(population->pop[(x_gap-1+W)%W][(y_gap+H)%H]->Alive() == true){ // left neighb
+	if(population->pop[(x_gap-1+W)%W][(y_gap+H)%H]->can_divide == true){ // left neighb
 		res ++;
 	}
-	if(population->pop[(x_gap+1+W)%W][(y_gap+H)%H]->Alive() == true){ // right neighb
+	if(population->pop[(x_gap+1+W)%W][(y_gap+H)%H]->can_divide == true){ // right neighb
 		res ++;
 	}
 	

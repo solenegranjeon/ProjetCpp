@@ -14,6 +14,7 @@
 class Bacteria {
 	
 	friend class Simulation;
+	friend class Population;
 	
 	public :
 		// =========================================================================
@@ -34,15 +35,9 @@ class Bacteria {
 		//                                  Getters
 		// =========================================================================
 		
-		int Geno(void);
-		int pos_x(void);
-		int pos_y(void);
 		double A_in(void);
 		double B_in(void);
 		double C_in(void);
-		double Fit(void);
-		bool Alive(void);
-		bool Can_Divide(void);
 		
 		// =========================================================================
 		//                                  Setters

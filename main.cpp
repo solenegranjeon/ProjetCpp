@@ -55,7 +55,7 @@ int main(int argc,char* argv[]) {
 	double Ainit = 50;
 	
 	//10000 normalement
-	double t_simulation = 3;
+	double t_simulation = 200;
    
   Bacteria* bact = new Bacteria(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,0,0,1);  
    
