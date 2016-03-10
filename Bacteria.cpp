@@ -20,32 +20,6 @@ using namespace std;
 //                                Constructors
 // ===========================================================================
 
-
-// Copy constructor
-Bacteria::Bacteria(const Bacteria& bac){
-	
-	this->Raa = bac.Raa;
-	this->Rbb = bac.Rbb;
-	this->Rab = bac.Rab;
-	this->Rbc = bac.Rbc;
-	this->Pmut = bac.Pmut;
-	this->Pdeath = bac.Pdeath;
-	this->Wmin = bac.Wmin;
-	
-	// Parameters specific to the bacteria
-	pos = new int[2];
-	memcpy(pos, bac.pos, sizeof(int)*2);
-	
-	phenotype = new double[3];
-	memcpy(phenotype, bac.phenotype, sizeof(double)*3);
-	
-	this->alive = bac.alive;
-	this->can_divide = bac.can_divide;
-	this->genotype = bac.genotype; //1:Ga 2:Gb
-	this->fitness = bac.fitness;
-	
-}
-
 //Constructor giving parameters
 Bacteria::Bacteria(double Raa, double Rbb, double Rab, double Rbc, 
 double Pmut, double Pdeath, double Wmin, int x, int y, int geno){
@@ -70,6 +44,7 @@ double Pmut, double Pdeath, double Wmin, int x, int y, int geno){
 	
 	this->alive = true;
 	this->can_divide = false;
+	this->just_died = false;
 	this->genotype = geno;
 	this->fitness = 0;
 
@@ -110,8 +85,9 @@ void Bacteria::Death(void){
   default_random_engine generator (seed);
 	uniform_real_distribution <double> distribution (0.0,1.0);
 	double prob = distribution(generator);
-	if(prob<this->Pdeath){
+	if(prob < this->Pdeath){
 		alive = false;
+		just_died = true;
 	}
 }
 
@@ -179,6 +155,18 @@ void Bacteria::set_x(int x){
 
 void Bacteria::set_y(int y){
 	pos[1] = y;
+}
+
+void Bacteria::set_A(double new_A){
+	phenotype[0] = new_A;
+}
+
+void Bacteria::set_B(double new_B){
+	phenotype[1] = new_B;
+}
+
+void Bacteria::set_C(double new_C){
+	phenotype[2] = new_C;
 }
 
 // ===========================================================================

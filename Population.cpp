@@ -96,7 +96,7 @@ void Population::mutation_all(void){
 	for(int i = 0; i < W; i++){
 		for(int j = 0; j < H; j++){
 			
-			if( pop[i][j] != nullptr){
+			if( pop[i][j]->Alive() == 	true){
 				int state1 = pop[i][j]->Geno();
 				pop[i][j]->Mutation();
 				if(state1 != pop[i][j]->Geno()){
@@ -121,7 +121,8 @@ void Population::death_all(void){
 	for(int i = 0; i<W; i++){
 		for(int j = 0; j < H; j++){
 			
-			if(pop[i][j] != nullptr){
+			if(pop[i][j]->Alive() == true){
+				
 				pop[i][j]->Death();
 				if(pop[i][j]->Alive() == false){
 					pop_Dead ++;
@@ -132,6 +133,7 @@ void Population::death_all(void){
 						pop_B --;
 					}
 				}
+				
 			}
 			
 		}
@@ -144,7 +146,7 @@ void Population::fitness_all(void){
 	for(int i = 0; i<W; i++){
 		for(int j = 0; j<H; j++){
 			
-			if(pop[i][j] != nullptr){
+			if(pop[i][j]->Alive() == true){
 				pop[i][j]->Fitness();
 			}
 			

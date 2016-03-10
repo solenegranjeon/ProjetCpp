@@ -21,7 +21,7 @@ class Bacteria {
 		// =========================================================================
 		
 		Bacteria() = delete;
-		Bacteria(const Bacteria&);
+		Bacteria(const Bacteria&) = delete;
 		Bacteria(double, double, double, double, double, double, double, int, int, int);
 		
 		// =========================================================================
@@ -49,6 +49,9 @@ class Bacteria {
 		// =========================================================================
 		void set_x(int);
 		void set_y(int);
+		void set_A(double);
+		void set_B(double);
+		void set_C(double);
 		
 		// =========================================================================
 		//                                 Operators
@@ -84,11 +87,13 @@ class Bacteria {
 	
 	// Parameters specific to the bacteria
 	int* pos; //[x,y]
-	bool alive;
-	bool can_divide;
 	double* phenotype; //[A,B,C]
 	int genotype; //1:Ga 2:Gb
 	double fitness;
+	
+	bool alive;
+	bool just_died;
+	bool can_divide;
 
 	// ===========================================================================
 	//                            Getters' definitions
