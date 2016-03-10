@@ -222,23 +222,23 @@ void Simulation::step_Division(void){
 		
 		//c.Order them randomly
 		//http://www.cplusplus.com/reference/algorithm/random_shuffle/
-		//~ random_shuffle(&pos_gaps[0],&pos_gaps[nb_gaps-1]);
+		random_shuffle(&pos_gaps[0],&pos_gaps[nb_gaps-1]);
 		
-		//~ //2)For each gap, we find the bacteria next to it with the highest fitness
-//~ 
-		//~ for( int index_gap = 0; index_gap < nb_gaps; index_gap++){ //For each gap
-			//~ 
-			//~ //Coordinates of the Gap
-			//~ int x_gap = pos_gaps[index_gap][0];
-			//~ int y_gap = pos_gaps[index_gap][1];
-			//~ 
-			//~ //Find the number of neigbors
-			//~ int nb_neighb = count_Neighb(x_gap, y_gap);
-						//~ 
-			//~ if( nb_neighb > 0){ //If there are any,
-				//~ 
-				//~ double max_fitness = 0;
-//~ 
+		//2)For each gap, we find the bacteria next to it with the highest fitness
+
+		for( int index_gap = 0; index_gap < nb_gaps; index_gap++){ //For each gap
+			
+			//Coordinates of the Gap
+			int x_gap = pos_gaps[index_gap][0];
+			int y_gap = pos_gaps[index_gap][1];
+			
+			//Find the number of neigbors
+			int nb_neighb = count_Neighb(x_gap, y_gap);
+						
+			if( nb_neighb > 0){ //If there are any,
+				
+				double max_fitness = 0;
+
 				//~ //Find the best fitness from the fitness of all neighbors
 				//~ for(int up_down = 0; up_down < 3; up_down ++){ //up and down neighbs
 					//~ 
@@ -334,13 +334,13 @@ void Simulation::step_Division(void){
 				//~ 
 				//~ //c. Change stats of population
 				//~ 
-			//~ }
-//~ 
-		//~ }
-			//~ 
+			}
+
+		}
+			
 		//4) Delete pos_gaps
 		for(int i = 0; i< nb_gaps; i++){
-			printf("Gap %d, Position %d, %d",i,pos_gaps[i][0], pos_gaps[i][1]);
+			//~ printf("Gap %d, Position %d, %d",i,pos_gaps[i][0], pos_gaps[i][1]);
 			delete[] pos_gaps[i];
 			pos_gaps[i] = nullptr;
 		}
