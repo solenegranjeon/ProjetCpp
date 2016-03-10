@@ -104,6 +104,10 @@ void Bacteria::Fitness(void){
 	}
 	if(fitness < Wmin){
 		fitness = 0;
+		can_divide = false;
+	}
+	else{
+		can_divide = true;
 	}
 }
 
