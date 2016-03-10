@@ -59,22 +59,22 @@ int main(int argc,char* argv[]) {
 	int t_simulation = 10000;
 	
 	//Finding statistics for various parameters
-	ofstream output("Run_1.txt", ios::out | ios::trunc);
+	ofstream output("Run_2.txt", ios::out | ios::trunc);
 	output << "T A_init L S Dead \n" ;
 	
 	for(int t = 1; t <= 10; t ++){
 		
 		for(int A = 0; A <= 5; A++){
 			
-			int T = t*50;
-			double Ainit = A*10.0;
+			int T = t*5;
+			double Ainit = A*1.0;
 		
 			Simulation* sim = new Simulation(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,
 			D,Ainit,A,B,T,t_simulation);
 			
 			sim->Algo_evol();
 			cout << sim->Stat() << endl;
-			output << sim->Stat() << "\n" ;
+			output << sim->Stat();
 
 			ImagePPM* miracle = new ImagePPM(32,sim->Bacterias);
 			string name_im = "T" + to_string(T) + "Ainit" + to_string(Ainit) + ".ppm";
