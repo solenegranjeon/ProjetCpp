@@ -96,7 +96,7 @@ void Population::mutation_all(void){
 	for(int i = 0; i < W; i++){
 		for(int j = 0; j < H; j++){
 			
-			if( pop[i][j]->alive == 	true){
+			if( pop[i][j]->alive == true){
 				int state1 = pop[i][j]->genotype;
 				pop[i][j]->Mutation();
 				if(state1 != pop[i][j]->genotype){
@@ -126,7 +126,7 @@ void Population::death_all(void){
 				pop[i][j]->Death();
 				if(pop[i][j]->just_died == true){
 					pop_Dead ++;
-					if(pop[i][j]->just_died == 1){
+					if(pop[i][j]->genotype == 1){
 						pop_A --;
 					}
 					else{

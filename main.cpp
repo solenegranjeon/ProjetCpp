@@ -14,7 +14,6 @@
 #include <vector>
 #include <list>
 #include <ctime>
-#include <string>
 #include <algorithm>
 #include <random>
 
@@ -53,35 +52,42 @@ int main(int argc,char* argv[]) {
   double Wmin = 0.001;
   
   //Faire varier T entre 1 et 500
-  double T = 250;
+  //~ int T = 100;
   //Faire varier Ainit entre 0 et 50
-	double Ainit = 25;
+	//~ double Ainit = 50;
 	
-	//10000 normalement
-	double t_simulation = 10000;
-   
-  Bacteria* bact = new Bacteria(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,0,0,1);  
-   
-  Population* pop = new Population(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,W*H/2,W*H/2);
-  
-  Environment* envir = new Environment(W,H,D,Ainit);
-  envir->diffuse_all();
-  
-  Simulation* sim = new Simulation(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,
-  D,Ainit,A,B,T,t_simulation);
-  
-  sim->Algo_evol();
-  cout << sim->Stat() << endl;
-
-	ImagePPM* miracle = new ImagePPM(32,sim->Bacterias);
-	miracle->save("BacteriesT250A25.ppm");
+	int t_simulation = 10000;
+	
+	//Finding statistics for various parameters
+	ofstream output("Run_1.txt", ios::out | ios::trunc);
+	output << "T A_init L S Dead \n" ;
+	
+	for(int t = 1; t <= 10; t ++){
 		
-	delete miracle;
+		for(int A = 0; A <= 5; A++){
+			
+			int T = t*50;
+			double Ainit = A*10.0;
+		
+			Simulation* sim = new Simulation(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,
+			D,Ainit,A,B,T,t_simulation);
+			
+			sim->Algo_evol();
+			cout << sim->Stat() << endl;
+			output << sim->Stat() << "\n" ;
 
-	delete bact;
-  delete envir;
-	delete pop;
-	delete sim;
-  
+			ImagePPM* miracle = new ImagePPM(32,sim->Bacterias);
+			string name_im = "T" + to_string(T) + "Ainit" + to_string(Ainit) + ".ppm";
+			miracle->save(name_im);
+				
+			delete miracle;
+			delete sim;
+		
+		}
+		
+	}
+	
+	output.close();
+	
   return 0;
 }

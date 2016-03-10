@@ -47,7 +47,7 @@ ImagePPM::ImagePPM(int size, int** data){
 	tab = new unsigned char[3*W*H];
 	int index = 0;
 	for(int x = 0; x< size; x++){
-		for(int y = 0; y< size; y++){
+		for(int y = 0; y< size; y++){ //Pink
 			if(data[x][y]==1){
 				tab[index]=(unsigned char)255;
 				index++;
@@ -56,7 +56,7 @@ ImagePPM::ImagePPM(int size, int** data){
 				tab[index]=(unsigned char)102;
 				index++;
 			}
-			else if(data[x][y] == 2){
+			else if(data[x][y] == 2){ //Blue
 				tab[index]=(unsigned char)153;
 				index++;
 				tab[index]=(unsigned char)255;
@@ -64,7 +64,7 @@ ImagePPM::ImagePPM(int size, int** data){
 				tab[index]=(unsigned char)255;
 				index++;
 			}
-			else{
+			else{ //Black
 				tab[index]=(unsigned char)0;
 				index++;
 				tab[index]=(unsigned char)0;
