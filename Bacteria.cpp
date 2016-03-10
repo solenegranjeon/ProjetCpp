@@ -43,8 +43,10 @@ double Pmut, double Pdeath, double Wmin, int x, int y, int geno){
 	phenotype[2] = 0;
 	
 	this->alive = true;
-	this->can_divide = false;
+	this->can_divide = true;
 	this->just_died = false;
+	this->can_metabo = true;
+	
 	this->genotype = geno;
 	this->fitness = 0;
 
@@ -88,6 +90,8 @@ void Bacteria::Death(void){
 	if(prob < this->Pdeath){
 		alive = false;
 		just_died = true;
+		can_divide = false;
+		can_metabo = false;
 	}
 }
 
@@ -107,8 +111,24 @@ void Bacteria::Divide(void){
 	phenotype[0] /= 2;
 	phenotype[1] /= 2;
 	phenotype[2] /= 2;
+	can_divide = false;
+	can_metabo = false;
 }
 
+void Bacteria::Relive(double A, double B, double C, int geno){
+	
+	phenotype[0] = A;
+	phenotype[1] = B;
+	phenotype[2] = C;
+	genotype = geno;
+	Fitness();
+	
+	alive = true;
+	just_died = false;
+	can_divide = false;
+	can_metabo = false;
+	
+}
 
 //Getters
 

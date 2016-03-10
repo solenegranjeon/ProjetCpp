@@ -65,6 +65,7 @@ class Bacteria {
 		void Death(void);
 		void Fitness(void);
 		void Divide(void);
+		void Relive(double,double,double,int);
 
 
 	protected :
@@ -94,6 +95,7 @@ class Bacteria {
 	bool alive;
 	bool just_died;
 	bool can_divide;
+	bool can_metabo;
 
 	// ===========================================================================
 	//                            Getters' definitions
