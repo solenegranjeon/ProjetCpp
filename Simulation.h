@@ -23,6 +23,9 @@ using namespace std;
 class Simulation {
 	
 	public :
+		//To display bacterias
+		int** Bacterias;
+	
 		// =========================================================================
 		//                               Constructors
 		// =========================================================================
@@ -59,6 +62,8 @@ class Simulation {
 		void step_Division(void);
 		void step_Metabolique(void);
 		void step_Maj_Bool(void);
+		
+		void step_Maj_Bacterias(void);
 		
 		int count_Neighb(int,int);
 		

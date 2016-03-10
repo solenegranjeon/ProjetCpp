@@ -39,6 +39,20 @@ double A_init, int A, int B, int T, int t_max) {
 	
 	population = new Population(Raa, Rbb, Rab, Rbc, Pmut, Pdeath, Wmin, W, H, A, B);
 	envir = new Environment(W, H, D, A_init);
+	
+	Bacterias = new int*[W];
+	for(int rows = 0; rows < H; rows ++){
+		Bacterias[rows] = new int[H];
+		for(int col = 0; col < W; col ++){
+			if(population->pop[rows][col]->genotype == 1){
+				Bacterias[rows][col] = 1;
+			}
+			else{
+				Bacterias[rows][col] = 2;
+			}
+		}
+	}
+	
 }
 
 
@@ -51,6 +65,12 @@ double A_init, int A, int B, int T, int t_max) {
 Simulation::~Simulation() {
 	delete population;
 	delete envir;
+	for( int row = 0; row < H; row ++){
+		delete[] Bacterias[row];
+		Bacterias[row] = nullptr;
+	}
+	delete[] Bacterias;
+	Bacterias = nullptr;
 }
 
 // ===========================================================================
@@ -63,6 +83,9 @@ void Simulation::Algo_evol(void){
 	population->fitness_all();
 	
 	while(t_cur<=t_max){
+		
+		printf("Iteration %d :\n",t_cur);
+
 		
 		// Every T, reinitialization of the environment
 		if(t_cur % T == 0){
@@ -90,11 +113,12 @@ void Simulation::Algo_evol(void){
 		//Maj bool of Bacterias
 		step_Maj_Bool();
 		
+		//Maj Bacterias
+		step_Maj_Bacterias();
+		
 		t_cur ++;
 		
-		printf("Iteration %d :\n",t_cur);
 		cout << Stat() << endl;
-		printf("Total %d",population->pop_A + population->pop_B + population->pop_Dead);
 		printf("\n\n");
 		
 	}
@@ -210,6 +234,8 @@ void Simulation::step_Division(void){
 	
 	if(nb_gaps > 0){
 		
+		printf("Nb of gaps %d \n",nb_gaps);
+		
 		//b.We gather their position
 		int** pos_gaps = new int*[nb_gaps];
 		int index_gap = 0;
@@ -273,8 +299,6 @@ void Simulation::step_Division(void){
 					}
 				}
 				
-				//~ printf("Max Fitness %f ",max_fitness);
-
 				//Find the bacterias with this fitness
 				vector<int> x_best = {};
 				vector<int> y_best = {};
@@ -403,6 +427,25 @@ int Simulation::count_Neighb(int x_gap, int y_gap){
 	
 	return res;
 }
+
+void Simulation::step_Maj_Bacterias(void){
+
+	for(int rows = 0; rows < H; rows ++){
+		for(int col = 0; col < W; col ++){
+			if(population->pop[rows][col]->alive == false){
+				Bacterias[rows][col] = 0;
+			}
+			else if(population->pop[rows][col]->genotype == 1){
+				Bacterias[rows][col] = 1;
+			}
+			else{
+				Bacterias[rows][col] = 2;
+			}
+		}
+	}
+
+}
+
 
 
 // ===========================================================================

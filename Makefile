@@ -1,11 +1,14 @@
 
 all: main
 
-main:	main.o Simulation.o Environment.o Population.o Bacteria.o
-	g++ -g main.o  Simulation.o Environment.o Population.o Bacteria.o -o main 
+main:	main.o Simulation.o Environment.o Population.o Bacteria.o ImagePPM.o
+	g++ -g main.o  Simulation.o Environment.o Population.o Bacteria.o ImagePPM.o -o main 
 	
-main.o: main.cpp Simulation.o Environment.o Population.o Bacteria.o
+main.o: main.cpp Simulation.o Environment.o Population.o Bacteria.o ImagePPM.o
 	g++ -c main.cpp -o main.o --std=c++11 -g
+
+ImagePPM.o: ImagePPM.cpp ImagePPM.h Simulation.h Environment.h Population.h Bacteria.h
+	g++ -c ImagePPM.cpp -o ImagePPM.o --std=c++11 -g
 	
 Simulation.o: Simulation.cpp Simulation.h Environment.h Population.h Bacteria.h
 	g++ -c Simulation.cpp -Wall -Wextra -o Simulation.o --std=c++11 -g

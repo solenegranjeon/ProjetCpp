@@ -22,6 +22,7 @@
 #include "Population.h"
 #include "Environment.h"
 #include "Simulation.h"
+#include "ImagePPM.h"
 
 using namespace std;
 
@@ -51,11 +52,13 @@ int main(int argc,char* argv[]) {
   double Pdeath = 0.02;
   double Wmin = 0.001;
   
-  double T = 500;
-	double Ainit = 50;
+  //Faire varier T entre 1 et 500
+  double T = 250;
+  //Faire varier Ainit entre 0 et 50
+	double Ainit = 25;
 	
 	//10000 normalement
-	double t_simulation = 200;
+	double t_simulation = 10000;
    
   Bacteria* bact = new Bacteria(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,0,0,1);  
    
@@ -69,6 +72,11 @@ int main(int argc,char* argv[]) {
   
   sim->Algo_evol();
   cout << sim->Stat() << endl;
+
+	ImagePPM* miracle = new ImagePPM(32,sim->Bacterias);
+	miracle->save("BacteriesT250A25.ppm");
+		
+	delete miracle;
 
 	delete bact;
   delete envir;
