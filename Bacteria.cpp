@@ -43,7 +43,7 @@ double Pmut, double Pdeath, double Wmin, int x, int y, int geno){
 	phenotype[2] = 0;
 	
 	this->alive = true;
-	this->can_divide = true;
+	this->can_divide = false;
 	this->just_died = false;
 	this->can_metabo = true;
 	

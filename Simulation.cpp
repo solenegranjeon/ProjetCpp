@@ -290,7 +290,7 @@ void Simulation::step_Division(void){
 						max_fitness = population->pop[(x_gap+1+W)%W][(y_gap+H)%H]->fitness;
 					}
 				}
-				
+								
 				//Find the bacterias with this fitness
 				vector<int> x_best = {};
 				vector<int> y_best = {};
@@ -376,8 +376,7 @@ void Simulation::step_Maj_Bool(void){
 		for(int col = 0; col < H; col ++){
 		
 			if(population->pop[row][col]->alive == true){
-			
-				population->pop[row][col]->can_divide = true;
+	
 				population->pop[row][col]->can_metabo = true;
 				population->pop[row][col]->just_died = false;
 			
