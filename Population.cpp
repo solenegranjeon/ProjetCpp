@@ -37,7 +37,7 @@ double Pmut, double Pdeath, double Wmin, int W, int H, int A, int B){
 	for(int i = 0; i< W; i++){
 		pop[i] = new Bacteria*[H];
 		for(int j = 0; j<H; j++){
-			int random = rand()%2;
+			int random = rand() % 2;
 			//if random=0 -> A else B
 			if(random==0){
 				if(pop_A < A){
@@ -51,7 +51,7 @@ double Pmut, double Pdeath, double Wmin, int W, int H, int A, int B){
 					pop_B ++;
 				}
 			}
-			if(random==1){
+			else{
 				if(pop_B < B){
 					//Create B
 					pop[i][j] = new Bacteria(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,i,j,2);

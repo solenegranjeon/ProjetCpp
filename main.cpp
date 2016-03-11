@@ -35,6 +35,8 @@ using namespace std;
 // ===========================================================================
 int main(int argc,char* argv[]) {
 
+	srand(time(NULL));
+
   //Parameters:
   double Raa = 0.1;
   double Rbb = 0.1;
@@ -43,8 +45,8 @@ int main(int argc,char* argv[]) {
   
   int W = 32;
   int H = 32;
-  int A = W*H/2;
-  int B = W*H/2;
+  int pop_A = 512;
+  int pop_B = 512;
   double D = 0.1;
   
   double Pmut = 0;
@@ -59,7 +61,7 @@ int main(int argc,char* argv[]) {
 	int t_simulation = 10000;
 	
 	//Finding statistics for various parameters
-	ofstream output("Run_7.txt", ios::out | ios::trunc);
+	ofstream output("Run_1.txt", ios::out | ios::trunc);
 	output << "T A_init L S Dead \n" ;
 	
 	for(int t = 1; t <= 10; t ++){
@@ -70,7 +72,7 @@ int main(int argc,char* argv[]) {
 			double Ainit = A*10;
 		
 			Simulation* sim = new Simulation(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,
-			D,Ainit,A,B,T,t_simulation);
+			D,Ainit,pop_A,pop_B,T,t_simulation);
 			
 			sim->Algo_evol();
 			cout << sim->Stat() << endl;

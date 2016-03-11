@@ -37,7 +37,8 @@ double A_init, int A, int B, int T, int t_max) {
 	this->T = T;
 	this->t_cur = 1;
 	
-	population = new Population(Raa, Rbb, Rab, Rbc, Pmut, Pdeath, Wmin, W, H, A, B);
+	population = new Population(Raa, Rbb, Rab, Rbc, Pmut, Pdeath, Wmin, W, H, Ga_init, Gb_init);
+	
 	envir = new Environment(W, H, D, A_init);
 	
 	Bacterias = new int*[W];
@@ -82,7 +83,7 @@ void Simulation::Algo_evol(void){
 	step_Metabolique();
 	population->fitness_all();
 	
-	while(t_cur<=t_max){
+	while(t_cur<t_max){
 			
 		// Every T, reinitialization of the environment
 		if(t_cur % T == 0){
