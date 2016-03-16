@@ -70,6 +70,7 @@ class Simulation {
 		void Algo_evol(void);
 		
 		string Stat(void);
+		string Graph_Vals(void);
 
 	protected :
 		// =========================================================================

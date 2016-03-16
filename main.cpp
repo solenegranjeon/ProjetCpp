@@ -58,13 +58,16 @@ int main(int argc,char* argv[]) {
   //Faire varier Ainit entre 0 et 50
 	double Ainit = 1;
 	
-	int t_simulation = 10000;
+	int t_simulation = 5000;
 	
 	//Finding statistics for various parameters
-	//~ ofstream output("Run_1.txt", ios::out | ios::trunc);
-	//~ output << "T A_init L S Dead \n" ;
+	ofstream output("Run_5000.txt", ios::out | ios::trunc);
+	output << "T A_init L S Dead \n" ;
 	
-	for(int t = 8; t <= 25; t ++){
+	ofstream output2("Run_5000.txt", ios::out | ios::trunc);
+	output2 << "T A_init Code \n" ;
+	
+	for(int t = 1; t <= 28; t ++){
 		//~ 
 		//~ for(int A = 0; A <= 5; A++){
 			
@@ -76,20 +79,23 @@ int main(int argc,char* argv[]) {
 			
 			sim->Algo_evol();
 			cout << sim->Stat() << endl;
-			//~ output << sim->Stat();
+			cout << sim->Graph_Vals() << endl;
+			output << sim->Stat();
+			output2 << sim->Graph_Vals();
 
-			//~ ImagePPM* miracle = new ImagePPM(32,sim->Bacterias);
-			//~ string name_im = "T" + to_string(T) + "Ainit" + to_string(Ainit) + ".ppm";
-			//~ miracle->save(name_im);
+			ImagePPM* miracle = new ImagePPM(32,sim->Bacterias);
+			string name_im = "T" + to_string(T) + "Ainit" + to_string(Ainit) + ".ppm";
+			miracle->save(name_im);
 				
-			//~ delete miracle;
+			delete miracle;
 			delete sim;
 		
 		//~ }
 		
 	}
 	
-	//~ output.close();
+	output.close();
+	output2.close();
 	
   return 0;
 }

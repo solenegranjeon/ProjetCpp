@@ -77,6 +77,66 @@ ImagePPM::ImagePPM(int size, int** data){
 	}
 }
 
+//~ ImagePPM::ImagePPM(string name_file){
+	//~ W=500;
+	//~ H=50;
+	//~ MaxVal=255;
+	//~ tab = new unsigned char[3*W*H];
+	//~ 
+	//~ //Create data from file:
+	//~ 
+	//~ ifstream infile(name_file);
+	//~ while (getline(infile, line)){
+    //~ istringstream iss(line);
+    //~ int a, b;
+    //~ if (!(iss >> a >> b)) { break; } // error
+//~ 
+    //~ // Fill data
+//~ }
+	//~ 
+	//~ int data [W] [H];
+	//~ 
+	//~ 
+	 //~ 
+	//~ int index = 0;
+	//~ for(int x = 0; x< size; x++){
+		//~ for(int y = 0; y< size; y++){ //Black
+			//~ if(data[x][y]==0){
+				//~ tab[index]=(unsigned char)0;
+				//~ index++;
+				//~ tab[index]=(unsigned char)0;
+				//~ index++;
+				//~ tab[index]=(unsigned char)0;
+				//~ index++;
+			//~ }
+			//~ else if(data[x][y] == 1){ //Blue
+				//~ tab[index]=(unsigned char)38;
+				//~ index++;
+				//~ tab[index]=(unsigned char)196;
+				//~ index++;
+				//~ tab[index]=(unsigned char)236;
+				//~ index++;
+			//~ }
+			//~ else if(data[x][y] == 2){ //Red
+				//~ tab[index]=(unsigned char)255;
+				//~ index++;
+				//~ tab[index]=(unsigned char)9;
+				//~ index++;
+				//~ tab[index]=(unsigned char)33;
+				//~ index++;
+			//~ }
+			//~ else{ //White
+				//~ tab[index]=(unsigned char)255;
+				//~ index++;
+				//~ tab[index]=(unsigned char)255;
+				//~ index++;
+				//~ tab[index]=(unsigned char)255;
+				//~ index++;
+			//~ 
+			//~ }
+		//~ }
+	//~ }
+//~ }
 
 // ===========================================================================
 //                                 Destructor

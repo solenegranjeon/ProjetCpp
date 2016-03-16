@@ -395,6 +395,21 @@ string Simulation::Stat(void){
 	return res;
 }
 
+string Simulation::Graph_Vals(void){
+	int code;
+	if(population->pop_Dead == 1024){ //Extinction 0
+		code = 0;
+	}
+	else if(population->pop_B != 0 && population->pop_A != 0){ //Cohabitation 1
+		code = 1;
+	}
+	else if(population->pop_B == 0 && population->pop_A != 0){ //Exclusion 2 (no B)
+		code = 2;
+	}
+	string res = "" + to_string(T) + " " + to_string(A_init) + " " + to_string(code) + "\n" ;
+	return res;
+}
+
 int Simulation::count_Neighb(int x_gap, int y_gap){
 	
 	int res = 0;

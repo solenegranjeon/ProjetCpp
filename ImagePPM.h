@@ -9,6 +9,8 @@
 #include <fstream>
 #include <cstring>
 #include <iostream>
+#include <sstream>
+#include <string>
 
 #include "Bacteria.h"
 #include "Population.h"
@@ -27,7 +29,7 @@ class ImagePPM {
   ImagePPM(const ImagePPM&);
   ImagePPM(string);
   ImagePPM(int,int**);
-
+	//~ ImagePPM(string);
 
   // =========================================================================
   //                                Destructor
