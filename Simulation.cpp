@@ -83,7 +83,7 @@ void Simulation::Algo_evol(void){
 	step_Metabolique();
 	population->fitness_all();
 	
-	while(t_cur<t_max){
+	while(t_cur < t_max){
 			
 		// Every T, reinitialization of the environment
 		if(t_cur % T == 0){
