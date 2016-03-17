@@ -15,7 +15,7 @@
 
 Simulation::Simulation(double Raa, double Rbb, double Rab, double Rbc, 
 double Pmut, double Pdeath, double Wmin, int W, int H, double D, 
-double A_init, int A, int B, int T, int t_max) {
+double A_init, int A, int B, int T_reinit, int t_max) {
 	
 	this->Raa = Raa;
 	this->Rbb = Rbb;
@@ -34,7 +34,7 @@ double A_init, int A, int B, int T, int t_max) {
 	this->A_init = A_init;
 	
 	this->t_max = t_max;
-	this->T = T;
+	this->T = T_reinit;
 	this->t_cur = 1;
 	
 	population = new Population(Raa, Rbb, Rab, Rbc, Pmut, Pdeath, Wmin, W, H, Ga_init, Gb_init);
@@ -84,23 +84,33 @@ void Simulation::Algo_evol(void){
 	population->fitness_all();
 	
 	while(t_cur < t_max){
-			
+		
 		// Every T, reinitialization of the environment
-		if(t_cur % T == 0){
+		if(t_cur % this->T == 0){
 			envir->reinit();
 		}
 	
 		//Diffusion of A,B,C in the environment
 		envir->diffuse_all();
 		
+		//================================COMMENTS==============================
+		//~ printf("IT %d : %d/%d/%d// ",t_cur,population->pop_A,population->pop_B,population->pop_Dead);
+
+		
 		//Bacterias die randomly and diffuse their content in the environment
 		step_Death();
+		
+		//================================COMMENTS==============================
+		//~ printf("%d/%d/%d// ",population->pop_A,population->pop_B,population->pop_Dead);
 		
 		//Step mutation
 		population->mutation_all();
 		
 		//Step division
 		step_Division();
+		
+		//================================COMMENTS==============================
+		//~ printf("%d/%d/%d// \n ",population->pop_A,population->pop_B,population->pop_Dead);
 		
 		//Step Metabolique
 		step_Metabolique();

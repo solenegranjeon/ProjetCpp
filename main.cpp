@@ -54,11 +54,11 @@ int main(int argc,char* argv[]) {
   double Wmin = 0.001;
   
   //Faire varier T entre 1 et 500
-  //~ int T = 750;
+  int T = 500;
   //Faire varier Ainit entre 0 et 50
 	double Ainit = 1;
 	
-	int t_simulation = 5000;
+	int t_simulation = 10000;
 	
 	//Finding statistics for various parameters
 	ofstream output("Run_5000.txt", ios::out | ios::trunc);
@@ -67,11 +67,11 @@ int main(int argc,char* argv[]) {
 	ofstream output2("Run_5000.txt", ios::out | ios::trunc);
 	output2 << "T A_init Code \n" ;
 	
-	for(int t = 1; t <= 28; t ++){
+	//~ for(int t = 1; t <= 28; t ++){
 		//~ 
 		//~ for(int A = 0; A <= 5; A++){
 			
-			int T = t*25;
+			//~ int T = t*25;
 			//~ double Ainit = A*10;
 		
 			Simulation* sim = new Simulation(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,
@@ -92,7 +92,7 @@ int main(int argc,char* argv[]) {
 		
 		//~ }
 		
-	}
+	//~ }
 	
 	output.close();
 	output2.close();
