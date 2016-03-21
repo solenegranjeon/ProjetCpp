@@ -203,16 +203,19 @@ void Simulation::step_Metabolique(void){
 }
 
 void Simulation::step_Death(void){
+	
+	nb_gaps = population->pop_Dead;
+	
 	//Bacterias die randomly (only die, stats of pop doesn't change)
 	population->death_all();
 	
 	//The just dead bacterias diffuse their content in the environment.
-	//They stay just-dead so that they can't divide but do not free their spot
+	//They can't divide but do not free their spot
 	
 	for(int i = 0; i < W; i++){
 		for(int j = 0; j < H; j++){
 					
-			if(population->pop[i][j]->just_died == true){ //The Bacteria just died
+			if(population->pop[i][j]->just_died == true){ //The Bacteria just died at time t+1
 				
 				int x = i;
 				int y = j;
@@ -224,9 +227,7 @@ void Simulation::step_Death(void){
 				envir->set_A(x,y,new_A);
 				envir->set_B(x,y,new_B);
 				envir->set_C(x,y,new_C);
-				
-				population->pop[i][j]->just_died = false;
-					
+									
 			}
 			
 		}
@@ -238,7 +239,6 @@ void Simulation::step_Division(void){
 	
 	//1)We find the gaps and order them randomly
 	//a.The number of gaps is the number of dead bacterias at time t
-	int nb_gaps = population->pop_Dead;
 	
 	if(nb_gaps > 0){
 
@@ -362,9 +362,6 @@ void Simulation::step_Division(void){
 				
 				population->pop[x_gap][y_gap]->Mutation();
 				population->pop[x_best[index]][y_best[index]]->Mutation();
-				
-				//c. Change stats of population
-				population->pop_Dead --;
 				
 			}
 

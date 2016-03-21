@@ -113,6 +113,8 @@ class Simulation {
 		Population* population;
 		Environment* envir;
 		
+		int nb_gaps;
+		
 		
 	// ===========================================================================
 	//                            Getters' definitions
