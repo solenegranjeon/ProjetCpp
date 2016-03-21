@@ -88,9 +88,11 @@ void Simulation::Algo_evol(void){
 	population->fitness_all();
 	
 	while(t_cur < t_max and population->pop_Dead != 1024 and population->pop_A != 1024){
+		//ie We stop the simulation if the max_time is reached
+		// or if all the bacterias are dead
+		// or if all the B bacterias are dead (if P_mut = 0)
 		
-		//~ printf("t %d : %d/%d/%d \n ",t_cur,population->pop_A,population->pop_B,population->pop_Dead);
-		
+				
 		// Every T, reinitialization of the environment
 		if(t_cur % this->T == 0){
 			envir->reinit();
@@ -100,6 +102,7 @@ void Simulation::Algo_evol(void){
 		envir->diffuse_all();
 		
 		//Bacterias die randomly and diffuse their content in the environment
+		//The bacterias that just died do not create gaps until the next iteration
 		step_Death();
 		
 		//Step division
@@ -115,7 +118,7 @@ void Simulation::Algo_evol(void){
 		//Maj bool of Bacterias
 		step_Maj_Bool();
 		
-		//Maj Bacterias
+		//Maj Bacterias to plot the image of the bacterias box
 		step_Maj_Bacterias();
 		
 		myfile << t_cur << " " << population->pop_A << " " << population->pop_B << " " << population->pop_Dead << "\n";
@@ -200,10 +203,12 @@ void Simulation::step_Metabolique(void){
 }
 
 void Simulation::step_Death(void){
-	//Bacterias die randomly
+	//Bacterias die randomly (only die, stats of pop doesn't change)
 	population->death_all();
 	
 	//The just dead bacterias diffuse their content in the environment.
+	//They stay just-dead so that they can't divide but do not free their spot
+	
 	for(int i = 0; i < W; i++){
 		for(int j = 0; j < H; j++){
 					
@@ -219,7 +224,7 @@ void Simulation::step_Death(void){
 				envir->set_A(x,y,new_A);
 				envir->set_B(x,y,new_B);
 				envir->set_C(x,y,new_C);
-					
+				
 				population->pop[i][j]->just_died = false;
 					
 			}
@@ -232,7 +237,7 @@ void Simulation::step_Death(void){
 void Simulation::step_Division(void){
 	
 	//1)We find the gaps and order them randomly
-	//a.The number of gaps is the number of dead bacterias
+	//a.The number of gaps is the number of dead bacterias at time t
 	int nb_gaps = population->pop_Dead;
 	
 	if(nb_gaps > 0){
@@ -242,7 +247,7 @@ void Simulation::step_Division(void){
 		vector<int*> pos_gaps = {};
 		for(int r = 0; r < H; r++){
 			for(int c = 0; c < W; c++){
-				if(population->pop[r][c]->alive == false){
+				if(population->pop[r][c]->alive == false and population->pop[r][c]->just_died == false){
 					int* tab = new int[2];
 					tab[0] = r;
 					tab[1] = c;
@@ -379,6 +384,12 @@ void Simulation::step_Maj_Bool(void){
 				population->pop[row][col]->can_metabo = true;
 				population->pop[row][col]->just_died = false;
 			
+			}
+			
+			else if(population->pop[row][col]->just_died == true){
+				
+				population->pop[row][col]->just_died = false;
+				
 			}
 		
 		}

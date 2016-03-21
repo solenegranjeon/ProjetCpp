@@ -116,7 +116,7 @@ void Bacteria::Divide(void){
 	phenotype[1] /= 2;
 	phenotype[2] /= 2;
 	can_divide = false;
-	can_metabo = false;
+	can_metabo = true;
 }
 
 void Bacteria::Relive(double A, double B, double C, int geno){
@@ -130,7 +130,7 @@ void Bacteria::Relive(double A, double B, double C, int geno){
 	alive = true;
 	just_died = false;
 	can_divide = false;
-	can_metabo = false;
+	can_metabo = true;
 	
 }
 
