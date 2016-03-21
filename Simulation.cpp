@@ -89,7 +89,7 @@ void Simulation::Algo_evol(void){
 	
 	while(t_cur < t_max and population->pop_Dead != 1024 and population->pop_A != 1024){
 		
-		printf("t %d : %d/%d/%d \n ",t_cur,population->pop_A,population->pop_B,population->pop_Dead);
+		//~ printf("t %d : %d/%d/%d \n ",t_cur,population->pop_A,population->pop_B,population->pop_Dead);
 		
 		// Every T, reinitialization of the environment
 		if(t_cur % this->T == 0){
@@ -102,11 +102,8 @@ void Simulation::Algo_evol(void){
 		//Bacterias die randomly and diffuse their content in the environment
 		step_Death();
 		
-		//On ne mute que si on se divise
-		//~ //Step mutation
-		//~ population->mutation_all();
-		
 		//Step division
+		//On ne mute que si on se divise
 		step_Division();
 
 		//Step Metabolique
@@ -349,6 +346,19 @@ void Simulation::step_Division(void){
 				//3)This bacteria divides itself into 2:
 				//a.We split its concentration of A,B,C into 2
 				population->pop[x_best[index]][y_best[index]]->Divide();
+				int state1 = population->pop[x_best[index]][y_best[index]]->genotype;
+				population->pop[x_best[index]][y_best[index]]->Mutation();
+				if(state1 != population->pop[x_best[index]][y_best[index]]->genotype){
+					if(state1 == 1){
+						population->pop_A --;
+						population->pop_B ++;
+					}
+					else{
+						population->pop_A ++;
+						population->pop_B --;
+					}
+				}
+				
 				 
 				//b.Modifie the bacteria at the position
 				double ph_A = population->pop[x_best[index]][y_best[index]]->phenotype[0];
@@ -357,6 +367,19 @@ void Simulation::step_Division(void){
 				int geno = population->pop[x_best[index]][y_best[index]]->genotype;
 	
 				population->pop[x_gap][y_gap]->Relive(ph_A,ph_B,ph_C,geno);
+				
+				int state2 = population->pop[x_gap][y_gap]->genotype;
+				population->pop[x_gap][y_gap]->Mutation();
+				if(state2 != population->pop[x_gap][y_gap]->genotype){
+					if(state2 == 1){
+						population->pop_A --;
+						population->pop_B ++;
+					}
+					else{
+						population->pop_A ++;
+						population->pop_B --;
+					}
+				}
 				
 				//c. Change stats of population
 				population->pop_Dead --;

@@ -91,30 +91,7 @@ Population::~Population() {
 // ===========================================================================
 //                               Public Methods
 // ===========================================================================
-void Population::mutation_all(void){
-	
-	for(int i = 0; i < W; i++){
-		for(int j = 0; j < H; j++){
-			
-			if( pop[i][j]->alive == true){
-				int state1 = pop[i][j]->genotype;
-				pop[i][j]->Mutation();
-				if(state1 != pop[i][j]->genotype){
-					if(state1 == 1){
-						pop_A --;
-						pop_B ++;
-					}
-					else{
-						pop_A ++;
-						pop_B --;
-					}
-				}
-			}
-			
-		}
-	}
-	
-}
+
 
 void Population::death_all(void){
 
