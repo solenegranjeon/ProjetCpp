@@ -6,12 +6,17 @@
 //                                  Includes
 // ===========================================================================
 
+#include <stdlib.h>
+#include <stdio.h>
 #include <cstdio>
 #include <cstdlib>
+#include <fstream>
 #include <iostream>
 #include <string>
-#include <algorithm>
 #include <vector>
+#include <list>
+#include <ctime>
+#include <algorithm>
 #include <random>
 
 #include "Bacteria.h"

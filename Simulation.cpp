@@ -80,10 +80,16 @@ Simulation::~Simulation() {
 
 void Simulation::Algo_evol(void){
 	
+	ofstream myfile;
+	myfile.open("Bact.txt", ios::out | ios::trunc);
+	myfile << t_cur << " " << population->pop_A << " " << population->pop_B << " " << population->pop_Dead << "\n";
+	
 	step_Metabolique();
 	population->fitness_all();
 	
-	while(t_cur < t_max){
+	while(t_cur < t_max and population->pop_Dead != 1024 and population->pop_A != 1024){
+		
+		printf("t %d : %d/%d/%d \n ",t_cur,population->pop_A,population->pop_B,population->pop_Dead);
 		
 		// Every T, reinitialization of the environment
 		if(t_cur % this->T == 0){
@@ -93,25 +99,16 @@ void Simulation::Algo_evol(void){
 		//Diffusion of A,B,C in the environment
 		envir->diffuse_all();
 		
-		//================================COMMENTS==============================
-		//~ printf("IT %d : %d/%d/%d// ",t_cur,population->pop_A,population->pop_B,population->pop_Dead);
-
-		
 		//Bacterias die randomly and diffuse their content in the environment
 		step_Death();
 		
-		//================================COMMENTS==============================
-		//~ printf("%d/%d/%d// ",population->pop_A,population->pop_B,population->pop_Dead);
-		
-		//Step mutation
-		population->mutation_all();
+		//On ne mute que si on se divise
+		//~ //Step mutation
+		//~ population->mutation_all();
 		
 		//Step division
 		step_Division();
-		
-		//================================COMMENTS==============================
-		//~ printf("%d/%d/%d// \n ",population->pop_A,population->pop_B,population->pop_Dead);
-		
+
 		//Step Metabolique
 		step_Metabolique();
 		
@@ -124,9 +121,13 @@ void Simulation::Algo_evol(void){
 		//Maj Bacterias
 		step_Maj_Bacterias();
 		
+		myfile << t_cur << " " << population->pop_A << " " << population->pop_B << " " << population->pop_Dead << "\n";
+		
 		t_cur ++;
 		
 	}
+	
+	myfile.close();
 	
 }
 
@@ -255,6 +256,7 @@ void Simulation::step_Division(void){
 		
 		//c.Order them randomly
 		//http://www.cplusplus.com/reference/algorithm/random_shuffle/
+		//PROBLEME??
 		random_shuffle(&pos_gaps[0],&pos_gaps[nb_gaps-1]);
 		
 		//2)For each gap, we find the bacteria next to it with the highest fitness
@@ -399,9 +401,19 @@ void Simulation::step_Maj_Bool(void){
 }
 
 string Simulation::Stat(void){
+	int code;
+	if(population->pop_Dead == 1024){ //Extinction 0
+		code = 0;
+	}
+	else if(population->pop_B != 0 && population->pop_A != 0){ //Cohabitation 1
+		code = 1;
+	}
+	else if(population->pop_B == 0 && population->pop_A != 0){ //Exclusion 2 (no B)
+		code = 2;
+	}
 	string res = "" + to_string(T) + " " + to_string(A_init) + " " + to_string(population->pop_A) + " " + 
 	to_string(population->pop_B) + " " + to_string(population->pop_Dead) 
-	+ "\n" ;
+	+ " " + to_string(code) + "\n" ;
 	return res;
 }
 
