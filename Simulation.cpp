@@ -238,22 +238,22 @@ void Simulation::step_Division(void){
 	if(nb_gaps > 0){
 
 		//b.We gather their position
-		int** pos_gaps = new int*[nb_gaps];
-		int index_gap = 0;
+		
+		vector<int*> pos_gaps = {};
 		for(int r = 0; r < H; r++){
 			for(int c = 0; c < W; c++){
 				if(population->pop[r][c]->alive == false){
-					pos_gaps[index_gap] = new int[2];
-					pos_gaps[index_gap][0] = r;
-					pos_gaps[index_gap][1] = c;
-					index_gap ++;
+					int* tab = new int[2];
+					tab[0] = r;
+					tab[1] = c;
+					pos_gaps.push_back(tab);
 				}
 			}
 		}
+
 		
 		//c.Order them randomly
 		//http://www.cplusplus.com/reference/algorithm/random_shuffle/
-		//PROBLEME??
 		random_shuffle(&pos_gaps[0],&pos_gaps[nb_gaps-1]);
 		
 		//2)For each gap, we find the bacteria next to it with the highest fitness
@@ -345,20 +345,7 @@ void Simulation::step_Division(void){
 								
 				//3)This bacteria divides itself into 2:
 				//a.We split its concentration of A,B,C into 2
-				population->pop[x_best[index]][y_best[index]]->Divide();
-				int state1 = population->pop[x_best[index]][y_best[index]]->genotype;
-				population->pop[x_best[index]][y_best[index]]->Mutation();
-				if(state1 != population->pop[x_best[index]][y_best[index]]->genotype){
-					if(state1 == 1){
-						population->pop_A --;
-						population->pop_B ++;
-					}
-					else{
-						population->pop_A ++;
-						population->pop_B --;
-					}
-				}
-				
+				population->pop[x_best[index]][y_best[index]]->Divide();				
 				 
 				//b.Modifie the bacteria at the position
 				double ph_A = population->pop[x_best[index]][y_best[index]]->phenotype[0];
@@ -368,39 +355,15 @@ void Simulation::step_Division(void){
 	
 				population->pop[x_gap][y_gap]->Relive(ph_A,ph_B,ph_C,geno);
 				
-				int state2 = population->pop[x_gap][y_gap]->genotype;
 				population->pop[x_gap][y_gap]->Mutation();
-				if(state2 != population->pop[x_gap][y_gap]->genotype){
-					if(state2 == 1){
-						population->pop_A --;
-						population->pop_B ++;
-					}
-					else{
-						population->pop_A ++;
-						population->pop_B --;
-					}
-				}
+				population->pop[x_best[index]][y_best[index]]->Mutation();
 				
 				//c. Change stats of population
 				population->pop_Dead --;
-				if(population->pop[x_gap][y_gap]->genotype == 1){
-					population->pop_A ++;
-				}
-				else{
-					population->pop_B ++;
-				}
 				
 			}
 
 		}
-			
-		//4) Delete pos_gaps
-		for(int i = 0; i< nb_gaps; i++){
-			delete[] pos_gaps[i];
-			pos_gaps[i] = nullptr;
-		}
-		delete[] pos_gaps;
-		pos_gaps = nullptr;
 		
 	}
 	
@@ -479,19 +442,30 @@ int Simulation::count_Neighb(int x_gap, int y_gap){
 
 void Simulation::step_Maj_Bacterias(void){
 	
+	int popA = 0;
+	int popB = 0;
+	int popD = 0;
+	
 	for(int rows = 0; rows < H; rows ++){
 		for(int col = 0; col < W; col ++){
 			if(population->pop[rows][col]->alive == false){
 				Bacterias[rows][col] = 0;
+				popD ++;
 			}
 			else if(population->pop[rows][col]->genotype == 1){
 				Bacterias[rows][col] = 1;
+				popA ++;
 			}
 			else{
 				Bacterias[rows][col] = 2;
+				popB ++;
 			}
 		}
 	}
+	
+	population->pop_A = popA;
+	population->pop_B = popB;
+	population->pop_Dead = popD;
 	
 }
 
