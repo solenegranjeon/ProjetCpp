@@ -68,7 +68,7 @@ int main(int argc,char* argv[]) {
 		
 		for(int A = 0; A <= 10; A++){
 			
-			int T = t*10 ;
+			int T = 1000 + 50*t ;
 			double Ainit = A*5;
 		
 			Simulation* sim = new Simulation(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,
