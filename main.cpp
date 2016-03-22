@@ -54,9 +54,9 @@ int main(int argc,char* argv[]) {
   double Wmin = 0.001;
   
   //Faire varier T entre 1 et 500
-  int T = 500;
+  int T = 10;
   //Faire varier Ainit entre 0 et 50
-	double Ainit = 1;
+	double Ainit = 20;
 	
 	int t_simulation = 10000;
 	

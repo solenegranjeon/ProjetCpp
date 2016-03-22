@@ -101,15 +101,15 @@ void Population::death_all(void){
 			if(pop[i][j]->alive == true){
 				
 				pop[i][j]->Death();
-				if(pop[i][j]->just_died == true){
-					pop_Dead ++;
-					if(pop[i][j]->genotype == 1){
-						pop_A --;
-					}
-					else{
-						pop_B --;
-					}
-				}
+				//~ if(pop[i][j]->just_died == true){
+					//~ pop_Dead ++;
+					//~ if(pop[i][j]->genotype == 1){
+						//~ pop_A --;
+					//~ }
+					//~ else{
+						//~ pop_B --;
+					//~ }
+				//~ }
 				
 			}
 			

@@ -36,6 +36,7 @@ double A_init, int A, int B, int T_reinit, int t_max) {
 	this->t_max = t_max;
 	this->T = T_reinit;
 	this->t_cur = 1;
+	this->nb_gaps = 0;
 	
 	population = new Population(Raa, Rbb, Rab, Rbc, Pmut, Pdeath, Wmin, W, H, Ga_init, Gb_init);
 	
@@ -81,7 +82,8 @@ Simulation::~Simulation() {
 void Simulation::Algo_evol(void){
 	
 	ofstream myfile;
-	myfile.open("Bact.txt", ios::out | ios::trunc);
+	string name_f = "Bact_T" + to_string(T) + "A" + to_string(A_init) + ".txt";
+	myfile.open(name_f, ios::out | ios::trunc);
 	myfile << t_cur << " " << population->pop_A << " " << population->pop_B << " " << population->pop_Dead << "\n";
 	
 	step_Metabolique();
@@ -119,7 +121,7 @@ void Simulation::Algo_evol(void){
 		step_Maj_Bool();
 		
 		//Maj Bacterias to plot the image of the bacterias box
-		step_Maj_Bacterias();
+		step_Maj_Pop();
 		
 		myfile << t_cur << " " << population->pop_A << " " << population->pop_B << " " << population->pop_Dead << "\n";
 		
@@ -128,6 +130,7 @@ void Simulation::Algo_evol(void){
 	}
 	
 	myfile.close();
+	step_Maj_Bacterias();
 	
 }
 
@@ -375,15 +378,8 @@ void Simulation::step_Maj_Bool(void){
 	
 	for(int row = 0; row < W; row ++){
 		for(int col = 0; col < H; col ++){
-		
-			if(population->pop[row][col]->alive == true){
-	
-				population->pop[row][col]->can_metabo = true;
-				population->pop[row][col]->just_died = false;
 			
-			}
-			
-			else if(population->pop[row][col]->just_died == true){
+			if(population->pop[row][col]->just_died == true){
 				
 				population->pop[row][col]->just_died = false;
 				
@@ -447,6 +443,33 @@ int Simulation::count_Neighb(int x_gap, int y_gap){
 	
 	return res;
 }
+
+void Simulation::step_Maj_Pop(void){
+
+	int popA = 0;
+	int popB = 0;
+	int popD = 0;
+	
+	for(int rows = 0; rows < H; rows ++){
+		for(int col = 0; col < W; col ++){
+			if(population->pop[rows][col]->alive == false){
+				popD ++;
+			}
+			else if(population->pop[rows][col]->genotype == 1){
+				popA ++;
+			}
+			else{
+				popB ++;
+			}
+		}
+	}
+	
+	population->pop_A = popA;
+	population->pop_B = popB;
+	population->pop_Dead = popD;
+
+}
+
 
 void Simulation::step_Maj_Bacterias(void){
 	
