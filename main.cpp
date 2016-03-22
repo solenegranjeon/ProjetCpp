@@ -54,22 +54,22 @@ int main(int argc,char* argv[]) {
   double Wmin = 0.001;
   
   //Faire varier T entre 1 et 500
-  int T = 10;
+  //~ int T = 10;
   //Faire varier Ainit entre 0 et 50
-	double Ainit = 20;
+	//~ double Ainit = 20;
 	
 	int t_simulation = 10000;
 	
 	//Finding statistics for various parameters
-	ofstream output("Data.txt", ios::out | ios::app);
+	ofstream output("DataPPhase.txt", ios::out | ios::app);
 	//~ output << "T A_init L S Dead Code \n" ;
 	
-	//~ for(int t = 1; t <= 4; t ++){
-		//~ 
-		//~ for(int A = 0; A <= 5; A++){
-			//~ 
-			//~ int T = 1000 + t*50;
-			//~ double Ainit = 5 + A*10;
+	for(int t = 1; t <= 4; t ++){
+		
+		for(int A = 0; A <= 10; A++){
+			
+			int T = t*10 ;
+			double Ainit = A*5;
 		
 			Simulation* sim = new Simulation(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,
 			D,Ainit,pop_A,pop_B,T,t_simulation);
@@ -87,9 +87,9 @@ int main(int argc,char* argv[]) {
 			//~ delete miracle;
 			delete sim;
 		
-		//~ }
-//~ 
-	//~ }
+		}
+
+	}
 	
 	output.close();
 	

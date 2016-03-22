@@ -82,7 +82,7 @@ Simulation::~Simulation() {
 void Simulation::Algo_evol(void){
 	
 	ofstream myfile;
-	string name_f = "Bact_T" + to_string(T) + "A" + to_string(A_init) + ".txt";
+	string name_f = "BactT" + to_string(T) + "A" + to_string(int(A_init)) + ".txt";
 	myfile.open(name_f, ios::out | ios::trunc);
 	myfile << t_cur << " " << population->pop_A << " " << population->pop_B << " " << population->pop_Dead << "\n";
 	
