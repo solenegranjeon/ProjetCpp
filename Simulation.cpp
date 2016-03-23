@@ -89,10 +89,10 @@ void Simulation::Algo_evol(void){
 	step_Metabolique();
 	population->fitness_all();
 	
-	while(t_cur < t_max and population->pop_Dead != 1024 and population->pop_A != 1024){
+	while(t_cur < t_max and population->pop_Dead != 1024 ){
 		//ie We stop the simulation if the max_time is reached
 		// or if all the bacterias are dead
-		// or if all the B bacterias are dead (if P_mut = 0)
+		// or if all the B bacterias are dead (if P_mut = 0) and population->pop_A != 1024
 		
 				
 		// Every T, reinitialization of the environment

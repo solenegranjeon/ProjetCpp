@@ -49,7 +49,7 @@ int main(int argc,char* argv[]) {
   int pop_B = 512;
   double D = 0.1;
   
-  double Pmut = 0.00;
+  double Pmut = 0.001;
   double Pdeath = 0.02;
   double Wmin = 0.001;
   
@@ -61,14 +61,14 @@ int main(int argc,char* argv[]) {
 	int t_simulation = 10000;
 	
 	//Finding statistics for various parameters
-	ofstream output("DataPPhase.txt", ios::out | ios::app);
+	ofstream output("DataPPhaseMut.txt", ios::out | ios::app);
 	//~ output << "T A_init L S Dead Code \n" ;
 	
-	for(int t = 1; t <= 4; t ++){
+	for(int t = 1; t <= 20; t ++){
 		
 		for(int A = 0; A <= 10; A++){
 			
-			int T = 1000 + 50*t ;
+			int T = t*50 ;
 			double Ainit = A*5;
 		
 			Simulation* sim = new Simulation(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,

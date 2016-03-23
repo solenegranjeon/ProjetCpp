@@ -5,7 +5,7 @@
 par(mfrow=c(1,1))
 
 
-stat_bact =read.table('BactT300A15.txt')
+stat_bact =read.table('BactT450A5.txt')
 time = stat_bact[,1]
 A = stat_bact[,2]
 B = stat_bact[,3]
