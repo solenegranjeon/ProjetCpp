@@ -76,6 +76,9 @@ class Simulation {
 		
 		string Stat(void);
 		string Graph_Vals(void);
+		
+		//To test 
+		void set_Concentrations(void);
 
 	protected :
 		// =========================================================================
@@ -115,6 +118,11 @@ class Simulation {
 		
 		int nb_gaps;
 		
+		//To test program
+		double A_total;
+		double B_total;
+		double C_total;
+		double Total;
 		
 	// ===========================================================================
 	//                            Getters' definitions

@@ -117,6 +117,7 @@ void Environment::diffuse(int x, int y){
 	double A_next = A_out[x][y];
 	double B_next = B_out[x][y];
 	double C_next = C_out[x][y];
+	
 	for(int i = -1; i <= 1; i++){
 		for(int j = -1; j<= 1; j++){
 			A_next += D*A_out[(x+i+W)%W][(y+j+H)%H];
@@ -199,19 +200,6 @@ void Environment::set_C(int x, int y, double new_C){
 	C_out[x][y] = new_C;
 }
 
-//Getters:
-
-double Environment::get_A(int x, int y){
-	return A_out[x][y];
-}
-
-double Environment::get_B(int x, int y){
-	return B_out[x][y];
-}
-
-double Environment::get_C(int x, int y){
-	return C_out[x][y];
-}
 
 // ===========================================================================
 //                              External Methods

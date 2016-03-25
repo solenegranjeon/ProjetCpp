@@ -55,6 +55,11 @@ double A_init, int A, int B, int T_reinit, int t_max) {
 		}
 	}
 	
+	//To test
+	A_total = A_init * W * H;
+	B_total = 0;
+	C_total = 0;
+	
 }
 
 
@@ -85,6 +90,13 @@ void Simulation::Algo_evol(void){
 	string name_f = "BactT" + to_string(T) + "A" + to_string(int(A_init)) + ".txt";
 	myfile.open(name_f, ios::out | ios::trunc);
 	myfile << t_cur << " " << population->pop_A << " " << population->pop_B << " " << population->pop_Dead << "\n";
+	
+	ofstream myfile2;
+	string name = "ConcentrationsBactT" + to_string(T) + "A" + to_string(int(A_init)) + ".txt";
+	myfile2.open(name, ios::out | ios::app);
+	myfile2 << "t fitnessA fitnessBb Atotal Btotal Ctotal Total\n" ;
+	myfile2 << t_cur << " 0 0 0 " << A_total << " 0 0 0\n";
+	myfile2.close();
 	
 	step_Metabolique();
 	population->fitness_all();
@@ -127,6 +139,8 @@ void Simulation::Algo_evol(void){
 		
 		t_cur ++;
 		
+		set_Concentrations();
+		
 	}
 	
 	myfile.close();
@@ -152,17 +166,15 @@ void Simulation::step_Metabolique(void){
 					float new_B = population->pop[row][col]->phenotype[1];
 					
 					for(int index = 0; index < 10; index ++){
-						new_A_out -= (new_A_out * Raa) * 0.1 ;
-					}
-					
-					for(int index = 0; index < 10; index ++){
+						new_A_out -= (A_out * Raa) * 0.1 ;
 						new_A += (A_out * Raa - A * Rab) * 0.1 ;
-					}
-					
-					for(int index = 0; index < 10; index ++){
 						new_B += (A * Rab) * 0.1;
+						
+						A_out = new_A_out;
+						A = new_A;
+						
 					}
-					
+
 					//Modifies A_out in envir, A and B in the Bacteria
 					envir->set_A(row,col,new_A_out);
 					population->pop[row][col]->set_A(new_A);
@@ -180,15 +192,12 @@ void Simulation::step_Metabolique(void){
 					float new_C = population->pop[row][col]->phenotype[2];
 					
 					for(int index = 0; index < 10; index ++){
-						new_B_out -= (new_B_out * Rbb) * 0.1;
-					}
-					
-					for(int index = 0; index < 10; index ++){
-						new_B += (B_out * Rbb - new_B * Rbc) * 0.1;
-					}
-					
-					for(int index = 0; index < 10; index ++){
+						new_B_out -= (B_out * Rbb) * 0.1;
+						new_B += (B_out * Rbb - B * Rbc) * 0.1;
 						new_C += (B * Rbc) * 0.1;
+						
+						B_out = new_B_out;
+						B = new_B;
 					}
 					
 					//Modifies B_out in envir, B and C in the Bacteria
@@ -218,15 +227,19 @@ void Simulation::step_Death(void){
 	for(int i = 0; i < W; i++){
 		for(int j = 0; j < H; j++){
 					
-			if(population->pop[i][j]->just_died == true){ //The Bacteria just died at time t+1
+			if(population->pop[i][j]->just_died == true){ //The Bacteria just died at time t
 				
 				int x = i;
 				int y = j;
 				
-				double new_A = envir->get_A(x,y) + population->pop[i][j]->A_in();
-				double new_B = envir->get_B(x,y) + population->pop[i][j]->B_in();
-				double new_C = envir->get_C(x,y) + population->pop[i][j]->C_in();
-					
+				double new_A = envir->A_out[x][y] + population->pop[i][j]->phenotype[0];
+				double new_B = envir->B_out[x][y] + population->pop[i][j]->phenotype[1];
+				double new_C = envir->C_out[x][y] + population->pop[i][j]->phenotype[2];
+				
+				population->pop[i][j]->phenotype[0] = 0;
+				population->pop[i][j]->phenotype[1] = 0;
+				population->pop[i][j]->phenotype[2] = 0;
+				
 				envir->set_A(x,y,new_A);
 				envir->set_B(x,y,new_B);
 				envir->set_C(x,y,new_C);
@@ -500,6 +513,41 @@ void Simulation::step_Maj_Bacterias(void){
 	
 }
 
+void Simulation::set_Concentrations(void){
+	
+	ofstream myfile2;
+	string name_f = "ConcentrationsBactT" + to_string(T) + "A" + to_string(int(A_init)) + ".txt";
+	myfile2.open(name_f, ios::out | ios::app);
+	
+	A_total = 0;
+	B_total = 0;
+	C_total = 0;
+	
+	double A = 0;
+	double B = 0;
+
+	for(int row = 0; row < W ; row ++){
+		for(int col = 0; col < H; col++){
+				A_total += envir->A_out[row][col];
+				A_total += population->pop[row][col]->phenotype[0];
+				B_total += envir->B_out[row][col];
+				B_total += population->pop[row][col]->phenotype[1];
+				C_total += envir->C_out[row][col];
+				C_total += population->pop[row][col]->phenotype[2];
+				if(population->pop[row][col]->genotype == 1){
+					A += population->pop[row][col]->fitness;
+				}
+				else{
+					B += population->pop[row][col]->fitness;
+				}
+		}
+	}
+	
+	Total = A_total + B_total + C_total;
+	myfile2 << t_cur << " " << A << " " << B << " " << A_total << " " << B_total << " " << C_total << " " << Total << "\n";
+	myfile2.close();
+
+}
 
 
 // ===========================================================================
