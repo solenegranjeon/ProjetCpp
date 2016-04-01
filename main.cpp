@@ -62,21 +62,21 @@ int main(int argc,char* argv[]) {
 	
 	//Finding statistics for various parameters
 	ofstream output("DataPPhaseMut.txt", ios::out | ios::app);
-	output << "T A_init L S Dead Code \n" ;
+	//~ output << "T A_init L S Dead Code \n" ;
 	
 	for(int t = 1; t <= 6; t ++){
 		
-		for(int A = 0; A <= 20; A++){
+		for(int A = 0; A <= 10; A++){
 			
-			int T = 700 + t*50 ;
-			double Ainit = A*2.5;
+			int T = 1200 + t*50 ;
+			double Ainit = A*5;
 		
 			Simulation* sim = new Simulation(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,
 			D,Ainit,pop_A,pop_B,T,t_simulation);
 			
 			sim->Algo_evol();
 			
-			cout << sim->Stat() << endl;
+			cout << sim->Stat();
 			
 			output << sim->Stat();
 

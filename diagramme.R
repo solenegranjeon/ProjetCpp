@@ -40,7 +40,7 @@ axis(2,at=y)
 
 Graph = read.table('DataPPhaseMut.txt', header = T)
 plot(Graph$T,Graph$A_init,col=Graph$Code+1,pch=19,xlab="T",ylab="Ainit",
-     main="Diagramme de Phase sans mutation
+     main="Diagramme de Phase avec mutation
      Exclusion: Vert, Extinction: Noir, Cohabitation: Rouge")
 x=seq(0,1500,100)
 y=seq(0,50,5)
