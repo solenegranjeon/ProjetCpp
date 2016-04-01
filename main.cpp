@@ -47,8 +47,10 @@ int main(int argc,char* argv[]) {
   int H = 32;
   int pop_A = 512;
   int pop_B = 512;
+  //BONUS: Faire varier D entre 0 et 0.1
   double D = 0.1;
   
+  //Pmut soit 0 soit 0.001
   double Pmut = 0.001;
   double Pdeath = 0.02;
   double Wmin = 0.001;
@@ -64,11 +66,11 @@ int main(int argc,char* argv[]) {
 	ofstream output("DataPPhaseMut.txt", ios::out | ios::app);
 	//~ output << "T A_init L S Dead Code \n" ;
 	
-	for(int t = 1; t <= 6; t ++){
+	for(int t = 1; t <= 10; t ++){
 		
 		for(int A = 0; A <= 10; A++){
 			
-			int T = 1200 + t*50 ;
+			int T = 0 + t*50 ;
 			double Ainit = A*5;
 		
 			Simulation* sim = new Simulation(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,
