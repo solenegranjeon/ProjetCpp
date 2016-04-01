@@ -64,12 +64,12 @@ int main(int argc,char* argv[]) {
 	ofstream output("DataPPhaseMut.txt", ios::out | ios::app);
 	output << "T A_init L S Dead Code \n" ;
 	
-	for(int t = 1; t <= 14; t ++){
+	for(int t = 1; t <= 6; t ++){
 		
-		for(int A = 0; A <= 10; A++){
+		for(int A = 0; A <= 20; A++){
 			
-			int T = 0 + t*50 ;
-			double Ainit = A*5;
+			int T = 700 + t*50 ;
+			double Ainit = A*2.5;
 		
 			Simulation* sim = new Simulation(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,
 			D,Ainit,pop_A,pop_B,T,t_simulation);
