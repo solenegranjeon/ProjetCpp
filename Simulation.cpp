@@ -86,17 +86,17 @@ Simulation::~Simulation() {
 
 void Simulation::Algo_evol(void){
 	
-	ofstream myfile;
-	string name_f = "BactT" + to_string(T) + "A" + to_string(int(A_init)) + ".txt";
-	myfile.open(name_f, ios::out | ios::trunc);
-	myfile << t_cur << " " << population->pop_A << " " << population->pop_B << " " << population->pop_Dead << "\n";
-	
-	ofstream myfile2;
-	string name = "ConcentrationsBactT" + to_string(T) + "A" + to_string(int(A_init)) + ".txt";
-	myfile2.open(name, ios::out | ios::app);
-	myfile2 << "t fitnessA fitnessBb Atotal Btotal Ctotal Total\n" ;
-	myfile2 << t_cur << " 0 0 0 " << A_total << " 0 0 0\n";
-	myfile2.close();
+	//~ ofstream myfile;
+	//~ string name_f = "BactT" + to_string(T) + "A" + to_string(int(A_init)) + ".txt";
+	//~ myfile.open(name_f, ios::out | ios::trunc);
+	//~ myfile << t_cur << " " << population->pop_A << " " << population->pop_B << " " << population->pop_Dead << "\n";
+	//~ 
+	//~ ofstream myfile2;
+	//~ string name = "ConcentrationsBactT" + to_string(T) + "A" + to_string(int(A_init)) + ".txt";
+	//~ myfile2.open(name, ios::out | ios::app);
+	//~ myfile2 << "t fitnessA fitnessBb Atotal Btotal Ctotal Total\n" ;
+	//~ myfile2 << t_cur << " 0 0 0 " << A_total << " 0 0 0\n";
+	//~ myfile2.close();
 	
 	step_Metabolique();
 	population->fitness_all();
@@ -135,15 +135,15 @@ void Simulation::Algo_evol(void){
 		//Maj Bacterias to plot the image of the bacterias box
 		step_Maj_Pop();
 		
-		myfile << t_cur << " " << population->pop_A << " " << population->pop_B << " " << population->pop_Dead << "\n";
+		//~ myfile << t_cur << " " << population->pop_A << " " << population->pop_B << " " << population->pop_Dead << "\n";
 		
 		t_cur ++;
 		
-		set_Concentrations();
+		//~ set_Concentrations();
 		
 	}
 	
-	myfile.close();
+	//~ myfile.close();
 	step_Maj_Bacterias();
 	
 }

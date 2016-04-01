@@ -49,26 +49,26 @@ int main(int argc,char* argv[]) {
   int pop_B = 512;
   double D = 0.1;
   
-  double Pmut = 0;
+  double Pmut = 0.001;
   double Pdeath = 0.02;
   double Wmin = 0.001;
   
   //Faire varier T entre 1 et 1500
-  //~ int T = 850;
+  //~ int T = 1100;
   //Faire varier Ainit entre 0 et 50
-	//~ double Ainit = 10;
+	//~ double Ainit = 45;
 	
 	int t_simulation = 10000;
 	
 	//Finding statistics for various parameters
-	ofstream output("DataPPhase.txt", ios::out | ios::app);
-	//~ output << "T A_init L S Dead Code \n" ;
+	ofstream output("DataPPhaseMut.txt", ios::out | ios::app);
+	output << "T A_init L S Dead Code \n" ;
 	
-	for(int t = 1; t <= 6; t ++){
+	for(int t = 1; t <= 14; t ++){
 		
 		for(int A = 0; A <= 10; A++){
 			
-			int T = 1200 + t*50 ;
+			int T = 0 + t*50 ;
 			double Ainit = A*5;
 		
 			Simulation* sim = new Simulation(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,
