@@ -29,29 +29,51 @@ lines(conc_stat$t,fitnessB,type="l",col=3)
 
 #========================= DIAGRAMME DE PHASE =============================
 
-Graph = read.table('DataPPhase.txt', header = T)
-plot(Graph$T,Graph$A_init,col=Graph$Code+1,pch=19,xlab="T",ylab="Ainit",
-     main="Diagramme de Phase sans mutation
-     Exclusion: Vert, Extinction: Noir, Cohabitation: Rouge")
-x=seq(0,1500,100)
-y=seq(0,50,5)
+Graph = read.table('D01.txt', header = T)
+plot(Graph$T,Graph$A_init,col=Graph$Code+1,pch=15,xlab="T",ylab="Ainit",
+     main="Diagramme de Phase sans mutation D = 0.1
+     Exclusion: Vert, Cohabitation: Rouge, Extinction: Noir")
+x=seq(0,1500,250)
 axis(1,at=x)
-axis(2,at=y)
 
-Graph = read.table('DataPPhaseMut.txt', header = T)
-plot(Graph$T,Graph$A_init,col=Graph$Code+1,pch=19,xlab="T",ylab="Ainit",
-     main="Diagramme de Phase avec mutation
-     Exclusion: Vert, Extinction: Noir, Cohabitation: Rouge")
-x=seq(0,1500,100)
-y=seq(0,50,5)
+Graph = read.table('MutationD01.txt', header = T)
+plot(Graph$T,Graph$A_init,col=Graph$Code+1,pch=15,xlab="T",ylab="Ainit",
+     main="Diagramme de Phase avec mutation D = 0.1
+     Exclusion: Vert, Cohabitation: Rouge, Extinction: Noir")
+x=seq(0,1500,250)
 axis(1,at=x)
-axis(2,at=y)
 
-Graph = read.table('DataPPhaseD0.txt', header = T)
-plot(Graph$T,Graph$A_init,col=Graph$Code+1,pch=19,xlab="T",ylab="Ainit",
+Graph = read.table('D0.txt', header = T)
+plot(Graph$T,Graph$A_init,col=Graph$Code+1,pch=15,xlab="T",ylab="Ainit",
      main="Diagramme de Phase avec un taux de diffusion D = 0
-     Exclusion: Vert, Extinction: Noir, Cohabitation: Rouge")
-x=seq(0,1500,100)
-y=seq(0,50,5)
+     Exclusion: Vert, Cohabitation: Rouge, Extinction: Noir")
+x=seq(0,1500,250)
 axis(1,at=x)
-axis(2,at=y)
+
+Graph = read.table('D002.txt', header = T)
+plot(Graph$T,Graph$A_init,col=Graph$Code+1,pch=15,xlab="T",ylab="Ainit",
+     main="Diagramme de Phase avec un taux de diffusion D = 0.02
+     Exclusion: Vert, Cohabitation: Rouge, Extinction: Noir")
+x=seq(0,1500,250)
+axis(1,at=x)
+
+Graph = read.table('D0001.txt', header = T)
+plot(Graph$T,Graph$A_init,col=Graph$Code+1,pch=15,xlab="T",ylab="Ainit",
+     main="Diagramme de Phase D = 0.001
+     Exclusion: Vert, Cohabitation: Rouge, Extinction: Noir")
+x=seq(0,1500,250)
+axis(1,at=x)
+
+Graph = read.table('D000001.txt', header = T)
+plot(Graph$T,Graph$A_init,col=Graph$Code+1,pch=15,xlab="T",ylab="Ainit",
+     main="Diagramme de Phase D = 0.00001
+     Exclusion: Vert, Cohabitation: Rouge, Extinction: Noir")
+x=seq(0,1500,250)
+axis(1,at=x)
+
+Graph = read.table('D000001.txt', header = T)
+plot(Graph$T,Graph$A_init,col=Graph$Code+1,pch=15,xlab="T",ylab="Ainit",
+     main="Diagramme de Phase D = 0.00001
+     Exclusion: Vert, Cohabitation: Rouge, Extinction: Noir")
+x=seq(0,1500,250)
+axis(1,at=x)

@@ -22,6 +22,7 @@
 #include "Bacteria.h"
 #include "Population.h"
 #include "Environment.h"
+#include "ImagePPM.h"
 
 using namespace std;
 

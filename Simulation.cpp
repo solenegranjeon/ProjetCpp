@@ -98,6 +98,12 @@ void Simulation::Algo_evol(void){
 	//~ myfile2 << t_cur << " 0 0 0 " << A_total << " 0 0 0\n";
 	//~ myfile2.close();
 	
+	//Pour GIF
+	//~ ImagePPM* miracle = new ImagePPM(32,Bacterias);
+	//~ string name_im = to_string(t_cur) + ".ppm";
+	//~ miracle->save(name_im); 
+	//~ delete miracle;
+	
 	step_Metabolique();
 	population->fitness_all();
 	
@@ -105,8 +111,8 @@ void Simulation::Algo_evol(void){
 		//ie We stop the simulation if the max_time is reached
 		// or if all the bacterias are dead
 		// or if all the B bacterias are dead (if P_mut = 0) and population->pop_A != 1024
+
 		
-				
 		// Every T, reinitialization of the environment
 		if(t_cur % this->T == 0){
 			envir->reinit();
@@ -138,6 +144,13 @@ void Simulation::Algo_evol(void){
 		//~ myfile << t_cur << " " << population->pop_A << " " << population->pop_B << " " << population->pop_Dead << "\n";
 		
 		t_cur ++;
+		
+		//Pour GIF
+		//~ step_Maj_Bacterias();
+		//~ ImagePPM* miracle = new ImagePPM(32,Bacterias);
+		//~ string name_im = to_string(t_cur) + ".ppm";
+		//~ miracle->save(name_im); 
+		//~ delete miracle;
 		
 		//~ set_Concentrations();
 		

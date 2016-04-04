@@ -48,31 +48,35 @@ int main(int argc,char* argv[]) {
   int pop_A = 512;
   int pop_B = 512;
   //BONUS: Faire varier D entre 0 et 0.1
-  double D = 0;
+  double D = 0.00001;
   
   //Pmut soit 0 soit 0.001
   double Pmut = 0;
   double Pdeath = 0.02;
   double Wmin = 0.001;
   
-  //Faire varier T entre 1 et 1500
-  //~ int T = 1100;
-  //Faire varier Ainit entre 0 et 50
-	//~ double Ainit = 45;
-	
-	int t_simulation = 10000;
+  int t_simulation = 10000;
+  
+  //~ double Ainit = 25;
+  //~ int T = 250;
 	
 	//Finding statistics for various parameters
-	ofstream output("DataPPhaseD0.txt", ios::out | ios::app);
+	ofstream output("D000001.txt", ios::out | ios::app);
 	output << "T A_init L S Dead Code \n" ;
 	
-	for(int t = 0; t <= 5; t ++){
+	//Faire varier T entre 1 et 1500
+  //Faire varier Ainit entre 0 et 50
+  
+	for(int A = 0; A <= 20; A++){
 		
-		for(int A = 0; A <= 20; A++){
+		for(int t = 0; t <= 60; t ++){
 			
-			int T = 825 + t*10 ;
+			//~ double Ainit = A*2.5;
+			//~ int T = (Ainit + 134) * 6 + 20*t;
+			
 			double Ainit = A*2.5;
-		
+			int T = 1+ 25*t;
+			
 			Simulation* sim = new Simulation(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,
 			D,Ainit,pop_A,pop_B,T,t_simulation);
 			
