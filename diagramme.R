@@ -47,3 +47,11 @@ y=seq(0,50,5)
 axis(1,at=x)
 axis(2,at=y)
 
+Graph = read.table('DataPPhaseD0.txt', header = T)
+plot(Graph$T,Graph$A_init,col=Graph$Code+1,pch=19,xlab="T",ylab="Ainit",
+     main="Diagramme de Phase avec un taux de diffusion D = 0
+     Exclusion: Vert, Extinction: Noir, Cohabitation: Rouge")
+x=seq(0,1500,100)
+y=seq(0,50,5)
+axis(1,at=x)
+axis(2,at=y)
