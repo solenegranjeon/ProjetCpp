@@ -70,7 +70,7 @@ int main(int argc,char* argv[]) {
 		
 		for(int A = 0; A <= 20; A++){
 			
-			int T = 775 + t*10 ;
+			int T = 825 + t*10 ;
 			double Ainit = A*2.5;
 		
 			Simulation* sim = new Simulation(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,
