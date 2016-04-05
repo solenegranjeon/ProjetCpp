@@ -48,7 +48,7 @@ int main(int argc,char* argv[]) {
   int pop_A = 512;
   int pop_B = 512;
   //BONUS: Faire varier D entre 0 et 0.1
-  double D = 0.00001;
+  double D = 0;
   
   //Pmut soit 0 soit 0.001
   double Pmut = 0;
@@ -61,21 +61,21 @@ int main(int argc,char* argv[]) {
   //~ int T = 250;
 	
 	//Finding statistics for various parameters
-	ofstream output("D000001.txt", ios::out | ios::app);
+	ofstream output("D0v2.txt", ios::out | ios::app);
 	output << "T A_init L S Dead Code \n" ;
 	
-	//Faire varier T entre 1 et 1500
-  //Faire varier Ainit entre 0 et 50
+	//Faire varier T entre 1 et 1500 de 10 en 10
+  //Faire varier Ainit entre 0 et 50 de 2 en 2
   
-	for(int A = 0; A <= 20; A++){
+	for(int A = 0; A <= 1; A++){
 		
-		for(int t = 0; t <= 60; t ++){
+		for(int t = 1; t <= 17; t ++){ // 700 à 860
 			
 			//~ double Ainit = A*2.5;
 			//~ int T = (Ainit + 134) * 6 + 20*t;
 			
-			double Ainit = A*2.5;
-			int T = 1+ 25*t;
+			double Ainit = 48 + 2*A;
+			int T = 680 + 10*t;
 			
 			Simulation* sim = new Simulation(Raa,Rbb,Rab,Rbc,Pmut,Pdeath,Wmin,W,H,
 			D,Ainit,pop_A,pop_B,T,t_simulation);
